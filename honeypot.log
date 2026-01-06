@@ -1,0 +1,248 @@
+[2026-01-07 00:16:14] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:16:14] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:14] SSH - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:20] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:16:25] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:25] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:25] FTP - 192.168.1.80 - Command: HELP
+[2026-01-07 00:16:32] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:32] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:32] FTP - 192.168.1.80 - Command: GET / HTTP/1.0
+[2026-01-07 00:16:37] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:37] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:37] FTP - 192.168.1.80 - Command: OPTIONS / HTTP/1.0
+[2026-01-07 00:16:42] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:42] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:42] FTP - 192.168.1.80 - Command: OPTIONS / RTSP/1.0
+[2026-01-07 00:16:47] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:47] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:47] FTP - 192.168.1.80 - Command: €
+[2026-01-07 00:16:52] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:52] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:52] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:16:57] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:16:57] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:16:57] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:17:02] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:02] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:02] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:17:07] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:07] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:07] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:17:12] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:12] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:12] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:17:18] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:18] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:18] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:17:23] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:23] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:23] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:17:28] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:28] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:28] FTP - 192.168.1.80 - Command: l
+[2026-01-07 00:17:33] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:33] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:33] FTP - 192.168.1.80 - Command: GET /nice%20ports%2C/Tri%6Eity.txt%2ebak HTTP/1.0
+[2026-01-07 00:17:38] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:38] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:38] FTP - 192.168.1.80 - Command: default
+
+[2026-01-07 00:17:43] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:43] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:43] FTP - 192.168.1.80 - Command: 0„
+[2026-01-07 00:17:48] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:48] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:48] FTP - 192.168.1.80 - Command: 0`
+[2026-01-07 00:17:53] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:17:53] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:17:53] FTP - 192.168.1.80 - Command: OPTIONS sip:nm SIP/2.0
+[2026-01-07 00:18:00] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:00] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:00] FTP - 192.168.1.80 - Command: TNMP
+[2026-01-07 00:18:05] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:05] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:05] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:18:10] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:10] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:10] FTP - 192.168.1.80 - Command: DmdT
+[2026-01-07 00:18:15] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:15] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:15] FTP - 192.168.1.80 - Command: :
+[2026-01-07 00:18:20] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:20] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:20] FTP - 192.168.1.80 - Command: JRMI
+[2026-01-07 00:18:25] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:25] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:25] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:18:30] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:30] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:30] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:18:35] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:35] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:35] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:18:40] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:40] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:40] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:18:45] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:18:45] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:18:45] FTP - 192.168.1.80 - Command: GIOP
+[2026-01-07 00:18:50] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:13] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:13] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:23:13] SSH - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:19] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:23:24] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:24] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:24] FTP - 192.168.1.80 - Command: HELP
+[2026-01-07 00:23:31] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:31] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:31] FTP - 192.168.1.80 - Command: GET / HTTP/1.0
+[2026-01-07 00:23:36] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:36] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:36] FTP - 192.168.1.80 - Command: OPTIONS / HTTP/1.0
+[2026-01-07 00:23:41] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:41] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:41] FTP - 192.168.1.80 - Command: OPTIONS / RTSP/1.0
+[2026-01-07 00:23:46] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:46] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:46] FTP - 192.168.1.80 - Command: €
+[2026-01-07 00:23:51] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:51] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:51] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:23:56] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:23:56] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:23:56] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:24:01] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:01] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:01] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:24:06] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:06] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:06] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:24:12] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:12] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:12] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:24:17] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:17] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:17] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:24:22] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:22] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:22] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:24:27] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:27] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:27] FTP - 192.168.1.80 - Command: l
+[2026-01-07 00:24:32] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:32] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:32] FTP - 192.168.1.80 - Command: GET /nice%20ports%2C/Tri%6Eity.txt%2ebak HTTP/1.0
+[2026-01-07 00:24:37] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:37] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:37] FTP - 192.168.1.80 - Command: default
+
+[2026-01-07 00:24:42] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:42] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:42] FTP - 192.168.1.80 - Command: 0„
+[2026-01-07 00:24:47] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:47] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:47] FTP - 192.168.1.80 - Command: 0`
+[2026-01-07 00:24:52] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:52] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:52] FTP - 192.168.1.80 - Command: OPTIONS sip:nm SIP/2.0
+[2026-01-07 00:24:59] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:24:59] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:24:59] FTP - 192.168.1.80 - Command: TNMP
+[2026-01-07 00:25:04] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:04] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:04] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:25:09] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:09] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:09] FTP - 192.168.1.80 - Command: DmdT
+[2026-01-07 00:25:14] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:14] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:14] FTP - 192.168.1.80 - Command: :
+[2026-01-07 00:25:19] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:19] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:19] FTP - 192.168.1.80 - Command: JRMI
+[2026-01-07 00:25:24] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:24] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:24] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:25:29] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:29] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:29] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:25:34] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:34] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:34] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:25:39] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:39] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:39] FTP - 192.168.1.80 - Command: 
+[2026-01-07 00:25:44] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:44] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:44] FTP - 192.168.1.80 - Command: GIOP
+[2026-01-07 00:25:50] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:25:50] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:25:50] FTP - 192.168.1.80 - Command: €
+[2026-01-07 00:25:51] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:28:28] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:28:28] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:28:28] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:28:28] SSH - 192.168.1.80 - Connection closed
+[2026-01-07 00:31:47] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:31:47] SSH - 192.168.1.80 - Received: SSH-2.0-OpenSSH_10.2
+[2026-01-07 00:31:47] SSH - 192.168.1.80 - Received: 
+[2026-01-07 00:31:47] SSH - 192.168.1.80 - Received: openssh.com,aes128-ctr,aes192-ctr,aes256-ctr
+[2026-01-07 00:31:47] SSH - 192.168.1.80 - Received: 128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+[2026-01-07 00:31:47] SSH - 192.168.1.80 - Connection closed
+[2026-01-07 00:31:59] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:31:59] SSH - 192.168.1.80 - Received: SSH-2.0-OpenSSH_10.2
+[2026-01-07 00:31:59] SSH - 192.168.1.80 - Received: 
+[2026-01-07 00:31:59] SSH - 192.168.1.80 - Received: openssh.com,aes128-ctr,aes192-ctr,aes256-ctr
+[2026-01-07 00:31:59] SSH - 192.168.1.80 - Received: 128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+[2026-01-07 00:31:59] SSH - 192.168.1.80 - Connection closed
+[2026-01-07 00:33:57] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:33:57] SSH - 192.168.1.80 - Client version: SSH-2.0-OpenSSH_10.2\x0d\x0a
+[2026-01-07 00:33:57] SSH - 192.168.1.80 - Connection closed
+[2026-01-07 00:35:50] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:35:50] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:35:53] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:35:53] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:35:54] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:35:54] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:35:55] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:35:55] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:37:57] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:37:57] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:38:15] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:38:15] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:38:15] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:38:15] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:50:41] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:50:41] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:50:41] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:50:41] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:54:21] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:54:21] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:54:21] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:54:21] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 00:57:51] SSH - 192.168.1.80 - Connection established
+[2026-01-07 00:57:51] FTP - 192.168.1.80 - Connection established
+[2026-01-07 00:57:51] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 00:57:51] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 01:00:39] FTP - 192.168.1.80 - Connection established
+[2026-01-07 01:00:39] SSH - 192.168.1.80 - Connection established
+[2026-01-07 01:00:39] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 01:00:39] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 01:01:31] FTP - 192.168.1.80 - Connection established
+[2026-01-07 01:01:31] SSH - 192.168.1.80 - Connection established
+[2026-01-07 01:01:31] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 01:01:31] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 01:03:14] FTP - 192.168.1.80 - Connection established
+[2026-01-07 01:03:14] SSH - 192.168.1.80 - Connection established
+[2026-01-07 01:03:14] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 01:03:14] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 01:07:14] FTP - 192.168.1.80 - Connection established
+[2026-01-07 01:07:14] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 01:07:14] SSH - 192.168.1.80 - Connection established
+[2026-01-07 01:07:14] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 01:07:25] FTP - 192.168.1.80 - Connection established
+[2026-01-07 01:07:25] FTP - 192.168.1.80 - Connection closed
+[2026-01-07 01:07:25] SSH - 192.168.1.80 - Connection established
+[2026-01-07 01:07:25] SSH - 192.168.1.80 - Error sending banner: Connection reset by peer

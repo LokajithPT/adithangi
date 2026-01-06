@@ -1,4 +1,0 @@
-/home/skedaddle/code/hah/build/CMakeFiles/scanner.dir
-/home/skedaddle/code/hah/build/CMakeFiles/game_client.dir
-/home/skedaddle/code/hah/build/CMakeFiles/edit_cache.dir
-/home/skedaddle/code/hah/build/CMakeFiles/rebuild_cache.dir

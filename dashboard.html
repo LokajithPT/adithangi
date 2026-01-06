@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KITSUNE IDS | LIVE MONITOR</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #00ff41;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        tr.malicious {
+            background-color: #330000;
+            color: #ff3333;
+            animation: flash 1s infinite alternate;
+        }
+        @keyframes flash {
+            from { background-color: #330000; }
+            to { background-color: #550000; }
+        }
+        .status-box {
+            border: 1px solid #00ff41;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>KITSUNE IDS :: LIVE THREAT MONITOR</h1>
+    
+    <div class="status-box">
+        SYSTEM STATUS: <span id="sys-status">ACTIVE</span><br>
+        LAST UPDATE: <span id="last-update">Waiting...</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>TIMESTAMP</th>
+                <th>SOURCE IP</th>
+                <th>DEST IP</th>
+                <th>ANOMALY SCORE</th>
+                <th>STATUS</th>
+                <th>ACTION TAKEN</th>
+            </tr>
+        </thead>
+        <tbody id="events-body">
+            <!-- Events will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function updateDashboard() {
+            fetch('/events')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('events-body');
+                    tbody.innerHTML = ''; // Clear current
+                    
+                    // Reverse to show newest first
+                    data.reverse().forEach(event => {
+                        const row = document.createElement('tr');
+                        if (event.status === 'MALICIOUS') {
+                            row.classList.add('malicious');
+                        }
+                        
+                        const date = new Date(event.timestamp * 1000);
+                        
+                        row.innerHTML = `
+                            <td>${date.toLocaleTimeString()}</td>
+                            <td>${event.src_ip}</td>
+                            <td>${event.dst_ip}</td>
+                            <td>${event.score.toFixed(4)}</td>
+                            <td>${event.status}</td>
+                            <td>${event.action}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    
+                    document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
+                })
+                .catch(err => console.error('Error fetching events:', err));
+        }
+
+        // Update every 2 seconds
+        setInterval(updateDashboard, 2000);
+        updateDashboard();
+    </script>
+</body>
+</html>
