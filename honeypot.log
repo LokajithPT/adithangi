@@ -246,3 +246,9 @@
 [2026-01-07 01:07:25] FTP - 192.168.1.80 - Connection closed
 [2026-01-07 01:07:25] SSH - 192.168.1.80 - Connection established
 [2026-01-07 01:07:25] SSH - 192.168.1.80 - Error sending banner: Connection reset by peer
+[2026-01-07 03:11:10] SSH - 192.168.1.80 - Connection established
+[2026-01-07 03:11:10] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 03:12:06] SSH - 192.168.1.80 - Connection established
+[2026-01-07 03:12:06] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 03:12:23] SSH - 192.168.1.80 - Connection established
+[2026-01-07 03:12:23] SSH - 192.168.1.80 - Banner sent, closing connection.
