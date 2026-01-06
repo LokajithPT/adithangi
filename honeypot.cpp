@@ -136,6 +136,29 @@ void handleFTPConnection(int clientSocket, const std::string& clientIP) {
     close(clientSocket);
 }
 
+void handleHTTPTarpit(int clientSocket, const std::string& clientIP) {
+    logConnection("HTTP-TARPIT", clientIP, "Connection established - TRAP ACTIVATED");
+    
+    // 1. Send a standard header to lure them in
+    const char* fakeHeader = "HTTP/1.1 200 OK\r\n"
+                             "Server: Apache/2.4.49 (Unix)\r\n"
+                             "Content-Type: text/html\r\n"
+                             "Transfer-Encoding: chunked\r\n"
+                             "\r\n";
+    send(clientSocket, fakeHeader, strlen(fakeHeader), 0);
+    
+    // 2. Infinite Loop of Garbage
+    const char* garbage = "4\r\n" "LOLO\r\n"; // Chunked encoding format
+    
+    while (true) {
+        ssize_t sent = send(clientSocket, garbage, strlen(garbage), 0);
+        if (sent <= 0) break; // Client gave up or disconnected
+    }
+    
+    logConnection("HTTP-TARPIT", clientIP, "Victim disconnected (Trap Success)");
+    close(clientSocket);
+}
+
 void startService(int port, const std::string& serviceName, void (*handler)(int, const std::string&)) {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0) {
@@ -199,9 +222,11 @@ int main() {
     
     std::thread sshThread(startService, 22, "SSH", handleSSHConnection);
     std::thread ftpThread(startService, 21, "FTP", handleFTPConnection);
+    std::thread httpThread(startService, 80, "HTTP-TARPIT", handleHTTPTarpit);
     
     sshThread.join();
     ftpThread.join();
+    httpThread.join();
     
     return 0;
 }
