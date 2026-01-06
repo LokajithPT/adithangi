@@ -22,9 +22,14 @@ HAH-IDS is a multi-component network security project designed to act as a deter
 *   **Online Learning:** Learns "normal" network traffic patterns during an initial training phase (first 50 packets).
 *   **Feature Extraction:** Monitors packet rates and sizes to detect statistical anomalies.
 *   **Real-time Alerts:** Prints alerts to the console and logs malicious events to `ids_events.json`.
-*   **Active Counter-Measure:** When an anomaly is detected, it executes `sudo iptables -A INPUT -s <Attacker_IP> -j DROP` to block the attacker's IP. Includes a whitelist for local/LAN IPs to prevent self-blocking.
+*   **Active Counter-Measure (Shadow Realm):** When an anomaly is detected, it executes `iptables` NAT rules to **REDIRECT** the attacker's TCP traffic to the local **Shadow Realm** (Port 6666), effectively hijacking their connection.
 
-### 4. **Web Dashboard (dashboard.html & dashboard_server.py)**
+### 4. **The Shadow Realm (shadow_realm.py)**
+*   **TCP Trap:** A Python script listening on Port 6666.
+*   **Psychological Warfare:** Simulates a laggy, broken root shell. It accepts commands but responds with typos, artificial delays, and creepy messages ("I see you...", "There is no escape").
+*   **Infinite Waste:** Keeps the attacker occupied in a fake environment while their real attacks are neutralized.
+
+### 5. **Web Dashboard (dashboard.html & dashboard_server.py)**
 *   **Live Monitoring:** A "hacker-style" web interface to visualize real-time threat alerts.
 *   **Event Log:** Displays detected anomalies, including timestamp, source/destination IPs, anomaly score, status, and action taken.
 *   **Auto-refresh:** Automatically updates every 2 seconds by fetching data from `ids_events.json`.
@@ -82,7 +87,12 @@ sudo ./honeypot
 sudo ./sniffer
 ```
 *   *(This will start capturing all IP traffic on your `wlo1` Wi-Fi interface and feed it to the Kitsune IDS.)*
-*   *(You might need to enable promiscuous mode on your `wlo1` interface manually if `sniffer` doesn't see traffic: `sudo ip link set wlo1 promisc on`)*
+
+### Terminal 5: The Shadow Realm (The Void)
+```bash
+python3 shadow_realm.py
+```
+*   *(This starts the trap server on Port 6666. Any banned IP will be silently redirected here.)*
 
 ## How to Test
 
