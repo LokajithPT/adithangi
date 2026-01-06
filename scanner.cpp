@@ -3,7 +3,6 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
-#include <vector>
 #include <map>
 #include <set>
 #include <pcap.h>
@@ -32,12 +31,21 @@ private:
     int ai_client_socket;
     struct sockaddr_in ai_server_addr;
     
+    // Honeypot deployment command
+    int honeypot_socket;
+    struct sockaddr_in honeypot_server;
+    
 public:
-    TrafficScanner() : running(false), ai_client_socket(-1) {
+    TrafficScanner() : running(false), ai_client_socket(-1), honeypot_socket(-1) {
         // Setup AI server connection
         ai_server_addr.sin_family = AF_INET;
         ai_server_addr.sin_port = htons(8080);
         inet_pton(AF_INET, "127.0.0.1", &ai_server_addr.sin_addr);
+        
+        // Setup honeypot command connection
+        honeypot_server.sin_family = AF_INET;
+        honeypot_server.sin_port = htons(8082);
+        inet_pton(AF_INET, "127.0.0.1", &honeypot_server.sin_addr);
     }
     
     void packet_handler(const u_char* packet, uint32_t packet_len) {
@@ -94,7 +102,32 @@ public:
             std::cout << "🚨 SCANNER DETECTED: " << src_ip_str 
                      << " | Ports: " << scan_info.ports_touched 
                      << " | Packets: " << scan_info.total_packets << std::endl;
+            
+            // DEPLOY HONEYPOT IMMEDIATELY
+            deploy_honeypot(src_ip_str);
         }
+    }
+    
+    void deploy_honeypot(const std::string& scanner_ip) {
+        if (honeypot_socket < 0) {
+            honeypot_socket = socket(AF_INET, SOCK_STREAM, 0);
+            if (honeypot_socket >= 0) {
+                if (connect(honeypot_socket, (struct sockaddr*)&honeypot_server, sizeof(honeypot_server)) >= 0) {
+                    std::cout << "🍯 CONNECTED TO HONEYPOT MANAGER" << std::endl;
+                } else {
+                    close(honeypot_socket);
+                    honeypot_socket = -1;
+                    return;
+                }
+            } else {
+                honeypot_socket = -1;
+                return;
+            }
+        }
+        
+        // Send deployment command
+        std::string deploy_cmd = "deploy " + scanner_ip;
+        send(honeypot_socket, deploy_cmd.c_str(), deploy_cmd.length(), 0);
     }
     
     void send_to_ai(const std::string& src_ip, const ScanInfo& scan_info) {
@@ -142,6 +175,7 @@ public:
         
         std::cout << "🚀 Starting Traffic Scanner..." << std::endl;
         std::cout << "📡 Monitoring for port scans and nmap activity..." << std::endl;
+        std::cout << "🍯 Will deploy honeypots IMMEDIATELY on scan detection!" << std::endl;
         
         // Connect to AI server
         connect_to_ai();
@@ -157,6 +191,7 @@ public:
         
         std::cout << "🔍 Capturing on interface: lo" << std::endl;
         std::cout << "🤖 Sending scan data to AI on port 8080" << std::endl;
+        std::cout << "🍯 Deploying honeypots on port 8082 when scans detected" << std::endl;
         std::cout << "Press Ctrl+C to stop..." << std::endl;
         
         // Start capture loop
@@ -169,6 +204,9 @@ public:
         running = false;
         if (ai_client_socket >= 0) {
             close(ai_client_socket);
+        }
+        if (honeypot_socket >= 0) {
+            close(honeypot_socket);
         }
     }
     

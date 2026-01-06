@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import socket
 import threading
 import time
@@ -143,8 +144,9 @@ class FakeSSHServer:
                     if response:
                         time.sleep(random.uniform(0.5, 2.0))  # Simulate processing time
                         if isinstance(response, str):
-                            response = response.encode("utf-8")
-                        client_socket.send(response)
+                            client_socket.send(response.encode("utf-8"))
+                        else:
+                            client_socket.send(response)
                         client_socket.send(b"\nroot@vulnerable-server:~# ")
 
                 except Exception as e:
@@ -322,22 +324,26 @@ class FakeFTPServer:
             self.server_socket.close()
 
 
-class HoneypotManager:
+class OnDemandHoneypotManager:
     def __init__(self):
-        self.ssh_server = FakeSSHServer()
-        self.ftp_server = FakeFTPServer()
+        self.ssh_server = None
+        self.ftp_server = None
         self.all_attempts = []
         self.running = False
 
-    def start(self):
-        self.running = True
-        print("🍯 STARTING HONEYPOT SERVICES")
-        print("🔐 Deploying fake SSH server (port 22)")
-        print("📂 Deploying fake FTP server (port 21)")
-        print("🎯 Ready to trap attackers!")
+    def start_honeypots(self, scanner_ip):
+        """Deploy honeypots when scanner detected"""
+        print(f"🍯 DEPLOYING HONEYPOTS FOR: {scanner_ip}")
+        print("🔐 Starting Fake SSH Server (port 22)")
+        print("📂 Starting Fake FTP Server (port 21)")
+        print("🎯 Let attacker interact with fake services during scan!")
         print("=" * 50)
 
-        # Start both servers in separate threads
+        # Initialize honeypot servers
+        self.ssh_server = FakeSSHServer()
+        self.ftp_server = FakeFTPServer()
+
+        # Start both servers
         ssh_thread = threading.Thread(target=self.ssh_server.start)
         ftp_thread = threading.Thread(target=self.ftp_server.start)
 
@@ -347,17 +353,14 @@ class HoneypotManager:
         ssh_thread.start()
         ftp_thread.start()
 
+        # Keep servers running
         try:
             while self.running:
                 time.sleep(1)
 
-                # Collect all attempts periodically
+                # Collect attempts
                 self.all_attempts.extend(self.ssh_server.get_attempts())
                 self.all_attempts.extend(self.ftp_server.get_attempts())
-
-                # Clear server logs to prevent duplicates
-                self.ssh_server.attempts = []
-                self.ftp_server.attempts = []
 
         except KeyboardInterrupt:
             print("\n🛑 Shutting down honeypots...")
@@ -365,8 +368,10 @@ class HoneypotManager:
 
     def stop(self):
         self.running = False
-        self.ssh_server.stop()
-        self.ftp_server.stop()
+        if self.ssh_server:
+            self.ssh_server.stop()
+        if self.ftp_server:
+            self.ftp_server.stop()
 
         # Save all attempts to file
         self.save_attacks_log()
@@ -397,25 +402,32 @@ class HoneypotManager:
 
 
 if __name__ == "__main__":
-    honeypot = HoneypotManager()
+    honeypot_manager = OnDemandHoneypotManager()
 
-    print("🍯 HONEYPOT MANAGER - FAKE SERVICES")
-    print("🎯 Ready to engage with detected scanners!")
+    print("🍯 ON-DEMAND HONEYPOT MANAGER")
+    print("🎯 Ready to deploy fake services when scanners detected!")
     print("=" * 50)
-    print("Services:")
-    print("  🔐 SSH (port 22) - Weak credentials, fake shell")
-    print("  📂 FTP (port 21) - Anonymous access, fake files")
+    print("Usage:")
+    print("  python3 fake_services.py deploy <scanner_ip>")
     print("=" * 50)
-    print("Press Ctrl+C to stop and save attack logs")
-    print()
+
+    if len(sys.argv) < 2 or sys.argv[1] != "deploy":
+        print("❌ Usage: python3 fake_services.py deploy <scanner_ip>")
+        sys.exit(1)
+
+    scanner_ip = sys.argv[2]
+    print(f"\n🎯 MONITORING FOR SCANNER: {scanner_ip}")
+    print("🍯 Honeypots will start immediately when scan detected")
+    print("📡 Attackers will see fake SSH on port 22 and FTP on port 21")
+    print("=" * 50)
 
     try:
-        honeypot.start()
+        honeypot_manager.start_honeypots(scanner_ip)
     except KeyboardInterrupt:
-        honeypot.stop()
+        honeypot_manager.stop()
 
         # Display statistics
-        stats = honeypot.get_stats()
+        stats = honeypot_manager.get_stats()
         print(f"\n📊 HONEYPOT STATISTICS:")
         print(f"  🎯 Total Attacks: {stats['total_attacks']}")
         print(f"  🔐 SSH Attempts: {stats['ssh_attacks']}")

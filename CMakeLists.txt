@@ -10,6 +10,7 @@ pkg_check_modules(PCAP REQUIRED libpcap)
 
 # Compile scanner
 add_executable(scanner scanner.cpp)
+target_link_libraries(scanner PRIVATE pthread)
 target_include_directories(scanner PRIVATE ${PCAP_INCLUDE_DIRS})
 target_link_libraries(scanner PRIVATE ${PCAP_LIBRARIES})
 target_compile_options(scanner PRIVATE ${PCAP_CFLAGS_OTHER})
