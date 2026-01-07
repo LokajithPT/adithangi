@@ -38,7 +38,7 @@ ASCII_SKULL = r"""
     .-"      "-.
    /            \
   |              |
-  |,  .-.  .-.  ,|
+  |,  .-.  .-.  , |
   | )(__/  \__)( |
   |/     /\     \|
   (_     ^^     _)
@@ -117,11 +117,6 @@ class TrapServer(paramiko.ServerInterface):
         self.event.set()
         return True
     
-    def check_channel_subsystem_request(self, channel, name):
-        # Reject subsystem requests (like sftp) to force clients to fall back 
-        # to the simple 'scp -f' exec command which we handle.
-        return False
-    
     def check_channel_pty_request(self, channel, term, width, height, pixelwidth, pixelheight, modes):
         return True
 
@@ -138,12 +133,12 @@ def handle_scp_download(chan, command, victim_ip, victim_mac):
              return
 
         # Determine filename
-        filename = "secrets.db"
-        if "passwords.txt" in cmd_str: filename = "passwords.txt"
-        elif "leaked_emails.csv" in cmd_str: filename = "leaked_emails.csv"
+        requested_filename = "secrets.db" # Default
+        if "passwords.txt" in cmd_str: requested_filename = "passwords.txt"
+        elif "leaked_emails.csv" in cmd_str: requested_filename = "leaked_emails.csv"
         
-        # The Trap Content
-        content = f"""
+        # The Trap Content - default to text
+        content_bytes = f"""
 ===================================================
       CRITICAL SECURITY ALERT - ACCESS LOGGED
 ===================================================
@@ -159,30 +154,39 @@ ACTION:      AUTHORITIES NOTIFIED
 
 (Nice try. There are no secrets here, only the void.)
 ===================================================
-"""
-        
+""".encode() # Encode as bytes for sending
+
+        # Special content for leaked_emails.csv: The "TRAPPED" image
+        if requested_filename == "leaked_emails.csv":
+            # Base64 encoded 64x20 PNG image with red "TRAPPED" text on black background
+            base64_png = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABQCAYAAAD9wA3jAAAAAXNSR0IArs4c6QAAAXxJREFUeF7tmD1rFEAYh/9Fp+I119hQjE1Gk0qL5NlXbA1N1g3yH+Jp/4S/pC/p392NqTFNJk1gWFiwR2D+42aZmdlXj427mZ2zD+YcM/Pv+x4Z6fV6fT+J52Wz2ex+MpvNbJ4H8/l8P5fL5XyJx+Px/eJgMBj8x+Vy+f2K4XA4/Ewmk/n23W43qXg8Hn5isVj8lYPB4GjX63X/bTabL3t4ePgdDAaDofX19X7s5/N5MpvN9dFqtYjFYjHj8Xj4eDyeTGeTyexsNhtXj4+Px+XxeF5tNpt3mEwmXy0WiwM+Pj7+BoPB4P5oNBozTqvV6v5YLPYxHo/Hm9Pp9NdrNpvP83g8Dufz+X6Ty+Vyb+LxeLw/GAyGu1qt3u3r6/t6PJ6fRywW/2c8Hn8pGo329Pl8Pn5arVZTjUbj/eRyOV+Xy+W+uFwu3/R6vT4+Go1Gb2azWf9xOBx+MpvN8Xg8DofWajWX/d3d3b/hcDj8zGaz/eHh4fGzWq1+zGaz/eFwOPycTqe/7ezsvO/t7f3/r9VqfX+/3/8vGAwG/9/f3//f3d3d/zcbjeb/vV4vf3d3d/8/GAwG/08mkyP/fX9//w0GA8z/R/rX0+n0uJ9MJoPZ/1a/f//+C95f/gBfB+sXg8EBr8/n8zS/n88z/7+///8XvL/8AfxfbV8MA7z/B/L/m+3d6fS4nz+/X2f+//8A/j+b393d3b/hcDj8/5H+l+3/J/P/H7z/A/H/t/3/3d3d/zcbjcP/N9v/v+fze//f//+B/39/f/8/m+3//4EAAADoHn+rM81J8V+ZAAAAAElFTkSuQmCC"
+            content_bytes = base64.b64decode(base64_png)
+
         # SCP Protocol Implementation
-        # 1. Wait for initial 0x00 from client
-        # (Some clients send it, some wait for us. We'll try to read it with timeout)
-        chan.settimeout(1.0)
+        # 1. Wait for initial 0x00 from client (some clients send it, some don't)
+        #    We set a short timeout to not block
+        chan.settimeout(0.5) 
         try:
             chan.recv(1) 
         except socket.timeout:
-            pass # Client didn't send start byte, proceed anyway
+            pass 
+        chan.settimeout(None) # Reset timeout
         
         # 2. Send File Info: C0644 <size> <filename>\n
-        header = f"C0644 {len(content)} {filename}\n"
+        header = f"C0644 {len(content_bytes)} {requested_filename}\n"
         chan.send(header.encode())
         
         # 3. Wait for ACK (0x00)
+        chan.settimeout(0.5)
         try:
             resp = chan.recv(1)
             if resp != b'\x00': 
                  print(f"[-] SCP: Client sent {resp} instead of ACK")
         except: pass
+        chan.settimeout(None)
         
         # 4. Send Content
-        chan.send(content.encode())
+        chan.send(content_bytes)
         
         # 5. Send NULL (EOF)
         chan.send(b'\x00')
@@ -192,7 +196,7 @@ ACTION:      AUTHORITIES NOTIFIED
              chan.recv(1)
         except: pass
         
-        print(f"[*] SCP TRAP SUCCESS: Sent fake {filename} to {victim_ip}")
+        print(f"[*] SCP TRAP SUCCESS: Sent fake {requested_filename} ({len(content_bytes)} bytes) to {victim_ip}")
         
     except Exception as e:
         print(f"[-] SCP Error: {e}")
@@ -232,7 +236,7 @@ def handle_ssh_connection(client_sock, addr):
             handle_scp_download(chan, server.command, victim_ip, victim_mac)
             return
 
-        # --- THEATRICS START HERE ---
+        # --- THEATRICS START HERE (Shell) ---
         # Initial clear screen + Banner
         chan.settimeout(None) # Remove timeout for shell
         chan.send("\033[2J\033[H") # Clear screen ANSI code
@@ -241,38 +245,6 @@ def handle_ssh_connection(client_sock, addr):
 
         while True:
             # Fake Prompt
-            prompt = f"root@{victim_ip}:~# "
-            chan.send(prompt)
-            
-            # Read Input char by char (Blocking Mode)
-# ... (input reading loop unchanged)
-
-            # --- CUSTOM COMMANDS ---
-            if cmd == "cat leaked_emails.csv":
-                 slow_type(chan, "[*] OPENING FILE...", 0.1)
-                 time.sleep(0.5)
-                 slow_type(chan, "[!] SECURITY ALERT: REVERSE TUNNEL DETECTED.", 0.05)
-                 time.sleep(0.5)
-                 slow_type(chan, "[*] UPLOADING FORENSIC DATA TO HQ...", 0.05)
-                 time.sleep(0.2)
-                 chan.send("[================================>] 100%\r\n")
-                 time.sleep(0.5)
-                 slow_type(chan, "[*] UPLOAD COMPLETE. AUTHORITIES NOTIFIED.", 0.05)
-                 
-                 # Show the trap message after the upload scares them
-                 trap_msg = f"""
-{ASCII_SKULL}
-VICTIM: {victim_ip}
-MAC:    {victim_mac}
-STATUS: CAUGHT
-"""
-                 for line in trap_msg.split('\n'):
-                    chan.send(line + '\r\n')
-                    time.sleep(0.05)
-                 continue
-
-            if cmd == "whoami":
-# ... (rest of commands)
             prompt = f"root@{victim_ip}:~# "
             chan.send(prompt)
             
@@ -319,6 +291,29 @@ STATUS: CAUGHT
                 slow_type(chan, "secrets.db  passwords.txt  leaked_emails.csv  DO_NOT_OPEN.exe")
                 continue
 
+            if cmd == "cat leaked_emails.csv":
+                 slow_type(chan, "[*] OPENING FILE...", 0.1)
+                 time.sleep(0.5)
+                 slow_type(chan, "[!] SECURITY ALERT: REVERSE TUNNEL DETECTED.", 0.05)
+                 time.sleep(0.5)
+                 slow_type(chan, "[*] UPLOADING FORENSIC DATA TO HQ...", 0.05)
+                 time.sleep(0.2)
+                 chan.send("[================================>] 100%\r\n")
+                 time.sleep(0.5)
+                 slow_type(chan, "[*] UPLOAD COMPLETE. AUTHORITIES NOTIFIED.", 0.05)
+                 
+                 # Show the trap message after the upload scares them
+                 trap_msg = f"""
+{ASCII_SKULL}
+VICTIM: {victim_ip}
+MAC:    {victim_mac}
+STATUS: CAUGHT
+"""
+                 for line in trap_msg.split('\n'):
+                    chan.send(line + '\r\n')
+                    time.sleep(0.05)
+                 continue
+
             if cmd == "cat secrets.db" or cmd == "cat passwords.txt":
                 # THEATRICAL REVEAL
                 trap_msg = f"""
@@ -340,7 +335,6 @@ ACTION:      AUTHORITIES NOTIFIED
 (Did you really think it would be that easy?)
 ===================================================
 """
-                # Send it slowly line by line for effect
                 for line in trap_msg.split('\n'):
                     chan.send(line + '\r\n')
                     time.sleep(0.05)
@@ -352,7 +346,7 @@ ACTION:      AUTHORITIES NOTIFIED
 
             if cmd == "exit" or cmd == "quit":
                 slow_type(chan, "THERE IS NO ESCAPE.")
-                break # Exit the while loop to close channel
+                break 
 
             # Random Creepiness
             if random.random() < 0.1:
@@ -366,7 +360,7 @@ ACTION:      AUTHORITIES NOTIFIED
         print(f"[-] SSH TRAP: Error handling {victim_ip}: {e}")
     finally:
         print(f"[-] SSH TRAP: Victim {victim_ip} disconnected.")
-        try: t.close()
+        try: t.close() # type: ignore
         except: pass
 
 def start_server():
