@@ -267,9 +267,30 @@ def handle_ssh_connection(client_sock, addr):
                 continue
 
             if cmd == "cat secrets.db" or cmd == "cat passwords.txt":
-                slow_type(chan, "ACCESS DENIED. BIOMETRIC SCAN REQUIRED.", 0.1)
-                slow_type(chan, "SCANNING FINGERPRINT...", 0.2)
-                slow_type(chan, "ERROR: FINGERPRINT NOT RECOGNIZED.", 0.05)
+                # THEATRICAL REVEAL
+                trap_msg = f"""
+{ASCII_SKULL}
+
+===================================================
+      CRITICAL SECURITY ALERT - ACCESS LOGGED
+===================================================
+
+VICTIM IDENTIFICATION:
+----------------------
+IP ADDRESS:  {victim_ip}
+MAC ADDRESS: {victim_mac}
+TIMESTAMP:   {time.ctime()}
+
+STATUS:      TRAPPED IN SHADOW REALM
+ACTION:      AUTHORITIES NOTIFIED
+
+(Did you really think it would be that easy?)
+===================================================
+"""
+                # Send it slowly line by line for effect
+                for line in trap_msg.split('\n'):
+                    chan.send(line + '\r\n')
+                    time.sleep(0.05)
                 continue
 
             if cmd == "reveal":
