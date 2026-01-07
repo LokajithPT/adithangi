@@ -62,7 +62,8 @@ def slow_type(conn, message, delay=0.05):
 
 def handle_victim(conn, addr):
     victim_ip = addr[0]
-    print(f"[*] VICTIM ENTERED THE SHADOW REALM: {victim_ip}")
+    start_time = time.time()
+    # print(f"[*] VICTIM ENTERED THE SHADOW REALM: {victim_ip}") # Optional: Comment out to be super quiet
     
     # Try to find their MAC
     victim_mac = get_mac(victim_ip)
@@ -125,7 +126,9 @@ def handle_victim(conn, addr):
     except Exception as e:
         pass
     finally:
-        print(f"[-] Victim {victim_ip} escaped (disconnected).")
+        duration = time.time() - start_time
+        if duration > 1.0:
+            print(f"[-] Victim {victim_ip} escaped after {duration:.1f}s.")
         conn.close()
 
 def start_server():

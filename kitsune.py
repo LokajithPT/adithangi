@@ -155,6 +155,9 @@ def main():
     log_file = "ids_events.json"
     if os.path.exists(log_file): os.remove(log_file)
     
+    # Track last analysis to prevent spam
+    last_analysis = {}
+
     while True:
         data, addr = sock.recvfrom(1024)
         try:
@@ -200,7 +203,12 @@ def main():
                 
             # Only print analysis for incoming traffic (not local loopback chatter if possible)
             if not src_ip.startswith("127."):
-                 print(f"[ANALYSIS] Source: {src_ip} | OS: {attacker_os} (TTL={ttl}) | Tool: {tool_used}")
+                 analysis_msg = f"[ANALYSIS] Source: {src_ip} | OS: {attacker_os} (TTL={ttl}) | Tool: {tool_used}"
+                 
+                 # Deduplicate logs
+                 if last_analysis.get(src_ip) != analysis_msg:
+                     print(analysis_msg)
+                     last_analysis[src_ip] = analysis_msg
 
             # DEBUG: Print everything so we know it works
             # print(f"[DEBUG] Packet In: {src_ip} -> {dst_ip} | Size: {size}")
