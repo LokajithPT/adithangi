@@ -60,7 +60,7 @@ void handleSSHConnection(int clientSocket, const std::string& clientIP) {
     ssize_t totalSent = 0;
     
     // Ensure the entire banner is sent
-    while (totalSent < bannerLen) {
+    while ((size_t)totalSent < bannerLen) {
         ssize_t sent = send(clientSocket, sshBanner + totalSent, bannerLen - totalSent, 0);
         if (sent < 0) {
             if (errno == EINTR) continue; // Interrupted system call, retry
@@ -216,6 +216,7 @@ void signalHandler(int signal) {
 int main() {
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
+    std::signal(SIGPIPE, SIG_IGN); // Ignore SIGPIPE to prevent crash on client disconnect (Tarpit)
     
     std::cout << "Starting 'Exploitable' Honeypot Services..." << std::endl;
     std::cout << "Press Ctrl+C to stop" << std::endl;

@@ -159,15 +159,51 @@ def main():
         data, addr = sock.recvfrom(1024)
         try:
             # Parse packet metadata from C++
-            # Format: "timestamp,src_ip,dst_ip,size"
+            # Format: "timestamp,src_ip,dst_ip,size,ttl,proto"
             msg = data.decode('utf-8').strip()
-            ts_str, src_ip, dst_ip, size_str = msg.split(',')
+            parts = msg.split(',')
+            
+            # Handle both old and new formats gracefully during transition
+            if len(parts) >= 6:
+                ts_str, src_ip, dst_ip, size_str, ttl_str, proto_str = parts[:6]
+                ttl = int(ttl_str)
+                proto = int(proto_str)
+            else:
+                ts_str, src_ip, dst_ip, size_str = parts[:4]
+                ttl = 64 # Default fallback
+                proto = 6 # Default TCP
             
             timestamp = float(ts_str)
             size = float(size_str)
             
+            # --- LIVE TRAFFIC ANALYSIS ---
+            # 1. OS Fingerprinting (Basic TTL Analysis)
+            attacker_os = "Unknown"
+            if ttl <= 64:
+                attacker_os = "Linux/Mac/Android"
+            elif ttl <= 128:
+                attacker_os = "Windows"
+            else:
+                attacker_os = "Cisco/Solaris"
+                
+            # 2. Tool Guessing
+            tool_used = "Unknown Traffic"
+            if proto == 1: # ICMP
+                tool_used = "PING / Nmap (-PE)"
+            elif proto == 6: # TCP
+                if size < 60: # Small packet, likely SYN
+                    tool_used = "Nmap SYN Scan / Netcat"
+                else:
+                    tool_used = "SSH / Browser / Data"
+            elif proto == 17: # UDP
+                tool_used = "UDP Scan / DNS / Streaming"
+                
+            # Only print analysis for incoming traffic (not local loopback chatter if possible)
+            if not src_ip.startswith("127."):
+                 print(f"[ANALYSIS] Source: {src_ip} | OS: {attacker_os} (TTL={ttl}) | Tool: {tool_used}")
+
             # DEBUG: Print everything so we know it works
-            print(f"[DEBUG] Packet In: {src_ip} -> {dst_ip} | Size: {size}")
+            # print(f"[DEBUG] Packet In: {src_ip} -> {dst_ip} | Size: {size}")
             
             # 1. Extract Features
             x = extractor.update(src_ip, size, timestamp)

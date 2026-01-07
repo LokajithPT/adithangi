@@ -252,3 +252,9 @@
 [2026-01-07 03:12:06] SSH - 192.168.1.80 - Banner sent, closing connection.
 [2026-01-07 03:12:23] SSH - 192.168.1.80 - Connection established
 [2026-01-07 03:12:23] SSH - 192.168.1.80 - Banner sent, closing connection.
+[2026-01-07 18:27:43] HTTP-TARPIT - 192.168.1.89 - Connection established - TRAP ACTIVATED
+[2026-01-07 18:29:14] SSH - 192.168.1.89 - Connection established
+[2026-01-07 18:29:14] FTP - 192.168.1.89 - Connection established
+[2026-01-07 18:29:14] SSH - 192.168.1.89 - Banner sent, closing connection.
+[2026-01-07 18:29:14] FTP - 192.168.1.89 - Connection closed
+[2026-01-07 18:29:15] HTTP-TARPIT - 192.168.1.89 - Connection established - TRAP ACTIVATED

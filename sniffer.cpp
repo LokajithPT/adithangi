@@ -89,12 +89,12 @@ int main() {
                  }
             }
 
-            // Prepare CSV string: "timestamp,src,dst,size"
+            // Prepare CSV string: "timestamp,src,dst,size,ttl,proto"
             auto now = std::chrono::system_clock::now();
             auto timestamp = std::chrono::duration_cast<std::chrono::duration<double>>(now.time_since_epoch()).count();
             
             std::stringstream ss;
-            ss << timestamp << "," << src_ip_str << "," << dst_ip_str << "," << data_size;
+            ss << timestamp << "," << src_ip_str << "," << dst_ip_str << "," << data_size << "," << (int)ip->ttl << "," << (int)ip->protocol;
             std::string msg = ss.str();
 
             // Send to Python
