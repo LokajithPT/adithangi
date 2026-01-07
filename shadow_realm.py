@@ -50,7 +50,27 @@ ASCII_SKULL = r"""
 """
 
 def get_mac(ip):
-    """Try to resolve IP to MAC address using system ARP table."""
+    """Try to resolve IP to MAC address using system ARP table (/proc/net/arp)."""
+    # 1. Handle Localhost (No MAC)
+    if ip == "127.0.0.1" or ip == "localhost":
+        return "00:00:00:00:00:00 (LOCALHOST)"
+
+    # 2. Try reading Linux ARP table directly (Most Reliable)
+    try:
+        with open('/proc/net/arp', 'r') as f:
+            # Skip header line
+            next(f)
+            for line in f:
+                parts = line.split()
+                # parts[0] is IP, parts[3] is MAC
+                if len(parts) >= 4 and parts[0] == ip:
+                    mac = parts[3]
+                    if mac != "00:00:00:00:00:00": # Filter incomplete entries
+                        return mac
+    except:
+        pass
+
+    # 3. Fallback to arp command
     try:
         # Run arp -n to get the table
         output = subprocess.check_output(["arp", "-n", ip]).decode()
@@ -60,7 +80,8 @@ def get_mac(ip):
             return mac.group(0)
     except:
         pass
-    return "UNKNOWN:LOCATION:HIDDEN"
+        
+    return "UNKNOWN (VPN/PROXY?)"
 
 def slow_type(chan, message, delay=0.05):
     """Simulates slow typing into the SSH channel."""
@@ -119,7 +140,7 @@ def handle_scp_download(chan, command, victim_ip, victim_mac):
         # Determine filename
         filename = "secrets.db"
         if "passwords.txt" in cmd_str: filename = "passwords.txt"
-        elif "nudes.zip" in cmd_str: filename = "nudes.zip"
+        elif "leaked_emails.csv" in cmd_str: filename = "leaked_emails.csv"
         
         # The Trap Content
         content = f"""
@@ -211,11 +232,19 @@ def handle_ssh_connection(client_sock, addr):
             handle_scp_download(chan, server.command, victim_ip, victim_mac)
             return
 
-        # --- THEATRICS START HERE (Shell) ---
+        # --- THEATRICS START HERE ---
         # Initial clear screen + Banner
         chan.settimeout(None) # Remove timeout for shell
         chan.send("\033[2J\033[H") # Clear screen ANSI code
         slow_type(chan, "Connected to INTERNAL_MAINFRAME_V9 [SECURE]", 0.05)
+        time.sleep(0.5)
+        
+        # FAKE INJECTION
+        slow_type(chan, "[*] SYSTEM COMPROMISED. UPLOADING TRACKER...", 0.05)
+        time.sleep(0.5)
+        chan.send("[================================>] 100%\r\n")
+        time.sleep(0.5)
+        slow_type(chan, "[*] PAYLOAD INJECTED SUCCESSFULLY.", 0.05)
         time.sleep(1)
 
         while True:
@@ -263,7 +292,7 @@ def handle_ssh_connection(client_sock, addr):
                 continue
 
             if cmd == "ls" or cmd == "dir":
-                slow_type(chan, "secrets.db  passwords.txt  nudes.zip  DO_NOT_OPEN.exe")
+                slow_type(chan, "secrets.db  passwords.txt  leaked_emails.csv  DO_NOT_OPEN.exe")
                 continue
 
             if cmd == "cat secrets.db" or cmd == "cat passwords.txt":
