@@ -237,18 +237,42 @@ def handle_ssh_connection(client_sock, addr):
         chan.settimeout(None) # Remove timeout for shell
         chan.send("\033[2J\033[H") # Clear screen ANSI code
         slow_type(chan, "Connected to INTERNAL_MAINFRAME_V9 [SECURE]", 0.05)
-        time.sleep(0.5)
-        
-        # FAKE INJECTION
-        slow_type(chan, "[*] SYSTEM COMPROMISED. UPLOADING TRACKER...", 0.05)
-        time.sleep(0.5)
-        chan.send("[================================>] 100%\r\n")
-        time.sleep(0.5)
-        slow_type(chan, "[*] PAYLOAD INJECTED SUCCESSFULLY.", 0.05)
         time.sleep(1)
 
         while True:
             # Fake Prompt
+            prompt = f"root@{victim_ip}:~# "
+            chan.send(prompt)
+            
+            # Read Input char by char (Blocking Mode)
+# ... (input reading loop unchanged)
+
+            # --- CUSTOM COMMANDS ---
+            if cmd == "cat leaked_emails.csv":
+                 slow_type(chan, "[*] OPENING FILE...", 0.1)
+                 time.sleep(0.5)
+                 slow_type(chan, "[!] SECURITY ALERT: REVERSE TUNNEL DETECTED.", 0.05)
+                 time.sleep(0.5)
+                 slow_type(chan, "[*] UPLOADING FORENSIC DATA TO HQ...", 0.05)
+                 time.sleep(0.2)
+                 chan.send("[================================>] 100%\r\n")
+                 time.sleep(0.5)
+                 slow_type(chan, "[*] UPLOAD COMPLETE. AUTHORITIES NOTIFIED.", 0.05)
+                 
+                 # Show the trap message after the upload scares them
+                 trap_msg = f"""
+{ASCII_SKULL}
+VICTIM: {victim_ip}
+MAC:    {victim_mac}
+STATUS: CAUGHT
+"""
+                 for line in trap_msg.split('\n'):
+                    chan.send(line + '\r\n')
+                    time.sleep(0.05)
+                 continue
+
+            if cmd == "whoami":
+# ... (rest of commands)
             prompt = f"root@{victim_ip}:~# "
             chan.send(prompt)
             
