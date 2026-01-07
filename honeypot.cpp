@@ -82,7 +82,7 @@ void handleFTPConnection(int clientSocket, const std::string& clientIP) {
     logConnection("FTP", clientIP, "Connection established");
     
     // TROLL: The legendary backdoor version
-    const char* ftpWelcome = "220 (vsFTPd 2.3.4)\r\n";
+    const char* ftpWelcome = "220 (vsFTPd 2.3.4 - BACKDOOR_ENABLED)\r\n";
     send(clientSocket, ftpWelcome, strlen(ftpWelcome), 0);
     
     char buffer[1024];

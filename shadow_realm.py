@@ -3,6 +3,8 @@ import threading
 import time
 import random
 import sys
+import subprocess
+import re
 
 BIND_IP = "0.0.0.0"
 BIND_PORT = 6666
@@ -19,18 +21,51 @@ CREEPY_MESSAGES = [
     "Uploading your history..."
 ]
 
-def slow_type(conn, message, delay=0.1):
+ASCII_SKULL = """
+      NO!
+    .-"      "-.
+   /            \\
+  |              |
+  |,  .-.  .-.  ,|
+  | )(__/  \\__)( |
+  |/     /\\     \\|
+  (_     ^^     _)
+   \\__|IIIIII|__/
+    | \\IIIIII/ |
+    \\          /
+     `--------`
+   YOU ARE TRAPPED
+"""
+
+def get_mac(ip):
+    """Try to resolve IP to MAC address using system ARP table."""
+    try:
+        # Run arp -n to get the table
+        output = subprocess.check_output(["arp", "-n", ip]).decode()
+        # Regex to find MAC
+        mac = re.search(r"(([a-f\d]{1,2}\:){5}[a-f\d]{1,2})", output)
+        if mac:
+            return mac.group(0)
+    except:
+        pass
+    return "UNKNOWN:LOCATION:HIDDEN"
+
+def slow_type(conn, message, delay=0.05):
     """Simulates slow typing for maximum annoyance/creepiness."""
     try:
         for char in message:
             conn.send(char.encode())
-            time.sleep(random.uniform(0.05, delay))
+            time.sleep(random.uniform(0.01, delay))
         conn.send(b"\r\n")
     except:
         pass
 
 def handle_victim(conn, addr):
-    print(f"[*] VICTIM ENTERED THE SHADOW REALM: {addr[0]}")
+    victim_ip = addr[0]
+    print(f"[*] VICTIM ENTERED THE SHADOW REALM: {victim_ip}")
+    
+    # Try to find their MAC
+    victim_mac = get_mac(victim_ip)
     
     try:
         # Initial Fake Banner
@@ -38,29 +73,51 @@ def handle_victim(conn, addr):
         time.sleep(1)
         
         while True:
-            # Fake Prompt
-            conn.send(b"root@mainframe:~# ")
+            # Fake Prompt: PERSONALIZED
+            prompt = f"root@{victim_ip}:~# "
+            conn.send(prompt.encode())
             
-            # Read input (and ignore it mostly)
+            # Read input
             data = conn.recv(1024)
             if not data:
                 break
             
-            # Artificial Lag
-            time.sleep(random.uniform(0.5, 2.0))
+            cmd = data.decode('utf-8', errors='ignore').strip()
             
-            # 10% chance to just print a creepy message instead of running the command
-            if random.random() < 0.2:
+            # Artificial Lag
+            time.sleep(random.uniform(0.2, 0.8))
+            
+            # --- CUSTOM COMMANDS FOR THE SHOW ---
+            if cmd == "whoami":
+                response = f"USER: root\nREAL_ID: {victim_ip}\nMAC_ADDR: {victim_mac}\nSTATUS: OWNED"
+                slow_type(conn, response, 0.05)
+                continue
+
+            if cmd == "ls" or cmd == "dir":
+                response = "secrets.db  passwords.txt  nudes.zip  DO_NOT_OPEN.exe"
+                slow_type(conn, response, 0.05)
+                continue
+                
+            if cmd == "cat secrets.db" or cmd == "cat passwords.txt":
+                slow_type(conn, "ACCESS DENIED. BIOMETRIC SCAN REQUIRED.", 0.1)
+                slow_type(conn, "SCANNING FINGERPRINT...", 0.2)
+                slow_type(conn, "ERROR: FINGERPRINT NOT RECOGNIZED.", 0.05)
+                continue
+
+            if cmd == "reveal":
+                conn.send(ASCII_SKULL.encode())
+                continue
+                
+            if cmd == "exit" or cmd == "quit":
+                slow_type(conn, "THERE IS NO ESCAPE.", 0.2)
+                continue
+
+            # --- RANDOM CREEPINESS ---
+            # 10% chance to just print a creepy message
+            if random.random() < 0.1:
                 slow_type(conn, random.choice(CREEPY_MESSAGES), 0.1)
                 continue
             
-            # 20% chance to simulate a crash/error
-            if random.random() < 0.2:
-                 slow_type(conn, "Segmentation fault (core dumped)", 0.02)
-                 continue
-
-            # Default response: Command not found or weird output
-            cmd = data.decode('utf-8', errors='ignore').strip()
             if cmd:
                 response = f"bash: {cmd}: command not found... or is it?"
                 slow_type(conn, response, 0.05)
@@ -68,7 +125,7 @@ def handle_victim(conn, addr):
     except Exception as e:
         pass
     finally:
-        print(f"[-] Victim {addr[0]} escaped (disconnected).")
+        print(f"[-] Victim {victim_ip} escaped (disconnected).")
         conn.close()
 
 def start_server():
