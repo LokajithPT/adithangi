@@ -286,3 +286,67 @@
 [2026-01-07 22:09:49] SSH - 192.168.1.96 - Session closed
 [2026-01-07 22:10:08] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
 [2026-01-07 22:15:43] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:25:22] HTTP-TARPIT - 192.168.1.96 - Connection established - TRAP ACTIVATED
+[2026-01-07 22:25:22] HTTP-TARPIT - 192.168.1.96 - Victim disconnected (Trap Success)
+[2026-01-07 22:25:22] HTTP-TARPIT - 192.168.1.96 - Connection established - TRAP ACTIVATED
+[2026-01-07 22:25:22] HTTP-TARPIT - 192.168.1.96 - Victim disconnected (Trap Success)
+[2026-01-07 22:25:22] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:25:22] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:22] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:25:22] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:25:23] HTTP-TARPIT - 192.168.1.96 - Connection established - TRAP ACTIVATED
+[2026-01-07 22:25:23] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:23] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:25:23] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:25:23] HTTP-TARPIT - 192.168.1.96 - Victim disconnected (Trap Success)
+[2026-01-07 22:25:29] FTP - 192.168.1.96 - Command: 
+[2026-01-07 22:25:34] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:25:34] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:34] FTP - 192.168.1.96 - Command: HELP
+[2026-01-07 22:25:41] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:25:41] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:41] FTP - 192.168.1.96 - Command: GET / HTTP/1.0
+[2026-01-07 22:25:46] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:25:46] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:46] FTP - 192.168.1.96 - Command: OPTIONS / HTTP/1.0
+[2026-01-07 22:25:51] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:25:51] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:51] FTP - 192.168.1.96 - Command: OPTIONS / RTSP/1.0
+[2026-01-07 22:25:56] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:25:56] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:25:56] FTP - 192.168.1.96 - Command: \x80
+[2026-01-07 22:26:01] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:26:01] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:26:01] FTP - 192.168.1.96 - Command: 
+[2026-01-07 22:26:06] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:26:06] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:26:06] FTP - 192.168.1.96 - Command: 
+[2026-01-07 22:26:11] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:26:11] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:26:11] FTP - 192.168.1.96 - Command: \x16\x03
+[2026-01-07 22:26:16] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:26:16] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:26:16] FTP - 192.168.1.96 - Command: \x03
+[2026-01-07 22:26:21] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:26:21] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:26:21] FTP - 192.168.1.96 - Command: \x16\x03
+[2026-01-07 22:26:26] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:26:26] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:26:26] FTP - 192.168.1.96 - Command: 
+[2026-01-07 22:26:27] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:43:41] HTTP-TARPIT - 192.168.1.96 - Connection established - TRAP ACTIVATED
+[2026-01-07 22:43:41] HTTP-TARPIT - 192.168.1.96 - Victim disconnected (Trap Success)
+[2026-01-07 22:43:42] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:43:42] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:43:42] HTTP-TARPIT - 192.168.1.96 - Connection established - TRAP ACTIVATED
+[2026-01-07 22:43:42] HTTP-TARPIT - 192.168.1.96 - Victim disconnected (Trap Success)
+[2026-01-07 22:43:42] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:43:42] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:43:42] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:43:42] HTTP-TARPIT - 192.168.1.96 - Connection established - TRAP ACTIVATED
+[2026-01-07 22:43:42] FTP - 192.168.1.96 - Connection established
+[2026-01-07 22:43:42] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:43:43] HTTP-TARPIT - 192.168.1.96 - Victim disconnected (Trap Success)
+[2026-01-07 22:43:48] FTP - 192.168.1.96 - Command: 
+[2026-01-07 22:43:52] FTP - 192.168.1.96 - Connection closed
+[2026-01-07 22:44:03] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...

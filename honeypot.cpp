@@ -78,6 +78,10 @@ void handleSSHConnection(int clientSocket, const std::string& clientIP) {
         return;
     }
 
+    // Forward the real Client IP to the Shadow Realm so it can log it correctly
+    std::string ipHeader = clientIP + "\n";
+    send(backendSocket, ipHeader.c_str(), ipHeader.length(), 0);
+
     // 2. Relay Traffic
     // We need non-blocking I/O or select() to handle bidirectional traffic
     

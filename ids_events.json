@@ -1,0 +1,2 @@
+{"timestamp": 1767810000.0, "src_ip": "192.168.1.93", "dst_ip": "142.251.221.106", "score": 19.68308721973388, "status": "MALICIOUS", "action": "Banished to Shadow Realm"}
+{"timestamp": 1767810000.0, "src_ip": "142.250.82.223", "dst_ip": "192.168.1.93", "score": 19.610431144326075, "status": "MALICIOUS", "action": "Banished to Shadow Realm"}
