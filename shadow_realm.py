@@ -6,6 +6,7 @@ import sys
 import subprocess
 import re
 import os
+import base64
 import paramiko
 
 # --- CONFIGURATION ---

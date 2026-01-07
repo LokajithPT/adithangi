@@ -274,3 +274,15 @@
 [2026-01-07 18:47:07] FTP - 192.168.1.90 - Connection closed
 [2026-01-07 18:47:07] SSH - 192.168.1.90 - Connection established
 [2026-01-07 18:47:07] SSH - 192.168.1.90 - Error sending banner: Connection reset by peer
+[2026-01-07 22:02:42] SSH - 192.168.1.96 - Connection established
+[2026-01-07 22:02:42] SSH - 192.168.1.96 - Banner sent, closing connection.
+[2026-01-07 22:05:09] SSH - 192.168.1.96 - Connection established
+[2026-01-07 22:05:09] SSH - 192.168.1.96 - Banner sent, closing connection.
+[2026-01-07 22:05:12] SSH - 192.168.1.96 - Connection established
+[2026-01-07 22:05:12] SSH - 192.168.1.96 - Banner sent, closing connection.
+[2026-01-07 22:08:28] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:08:36] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:09:00] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:09:49] SSH - 192.168.1.96 - Session closed
+[2026-01-07 22:10:08] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-07 22:15:43] SSH - 192.168.1.96 - Session closed

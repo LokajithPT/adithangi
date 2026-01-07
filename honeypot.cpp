@@ -50,32 +50,85 @@ void logConnection(const std::string& service, const std::string& clientIP, cons
 }
 
 void handleSSHConnection(int clientSocket, const std::string& clientIP) {
-    logConnection("SSH", clientIP, "Connection established");
-    
-    // TROLL: Ancient SSH version (Protocol 1.5)
-    // This makes modern clients disconnect cleanly ("Protocol major versions differ") 
-    // instead of crashing with crypto errors, while nmap sees a huge vulnerability.
-    const char* sshBanner = "SSH-1.5-OpenSSH_1.2.3\r\n";
-    size_t bannerLen = strlen(sshBanner);
-    ssize_t totalSent = 0;
-    
-    // Ensure the entire banner is sent
-    while ((size_t)totalSent < bannerLen) {
-        ssize_t sent = send(clientSocket, sshBanner + totalSent, bannerLen - totalSent, 0);
-        if (sent < 0) {
-            if (errno == EINTR) continue; // Interrupted system call, retry
-            logConnection("SSH", clientIP, "Error sending banner: " + std::string(strerror(errno)));
-            close(clientSocket);
-            return;
-        }
-        totalSent += sent;
+    logConnection("SSH", clientIP, "Redirecting to Shadow Realm (Port 6666)...");
+
+    // 1. Connect to the backend (Shadow Realm)
+    int backendSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (backendSocket < 0) {
+        logConnection("SSH", clientIP, "Error creating backend socket");
+        close(clientSocket);
+        return;
     }
+
+    struct sockaddr_in backendAddr;
+    backendAddr.sin_family = AF_INET;
+    backendAddr.sin_port = htons(6666);
+    // Convert 127.0.0.1 to binary form
+    if (inet_pton(AF_INET, "127.0.0.1", &backendAddr.sin_addr) <= 0) {
+        logConnection("SSH", clientIP, "Invalid backend address");
+        close(backendSocket);
+        close(clientSocket);
+        return;
+    }
+
+    if (connect(backendSocket, (struct sockaddr*)&backendAddr, sizeof(backendAddr)) < 0) {
+        logConnection("SSH", clientIP, "Failed to connect to Shadow Realm (Is it running?)");
+        close(backendSocket);
+        close(clientSocket);
+        return;
+    }
+
+    // 2. Relay Traffic
+    // We need non-blocking I/O or select() to handle bidirectional traffic
     
-    // Immediately close after sending banner.
-    // This ensures the client only sees the old banner and then gets disconnected,
-    // avoiding complex SSH handshake failures and simply showing a 'very old server'.
-    logConnection("SSH", clientIP, "Banner sent, closing connection.");
+    fd_set readfds;
+    int max_sd = (clientSocket > backendSocket) ? clientSocket : backendSocket;
+    
+    // Buffer for data relay
+    char buffer[4096];
+
+    while (running) { // running is the global atomic bool
+        FD_ZERO(&readfds);
+        FD_SET(clientSocket, &readfds);
+        FD_SET(backendSocket, &readfds);
+
+        // Timeout for select (so we check 'running' periodically)
+        struct timeval timeout;
+        timeout.tv_sec = 1;
+        timeout.tv_usec = 0;
+
+        int activity = select(max_sd + 1, &readfds, NULL, NULL, &timeout);
+
+        if ((activity < 0) && (errno != EINTR)) {
+             break; // Error
+        }
+        
+        if (activity == 0) continue; // Timeout
+
+        // Client -> Backend
+        if (FD_ISSET(clientSocket, &readfds)) {
+            ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+            if (bytesRead <= 0) {
+                // Connection closed or error
+                break; 
+            }
+            send(backendSocket, buffer, bytesRead, 0);
+        }
+
+        // Backend -> Client
+        if (FD_ISSET(backendSocket, &readfds)) {
+            ssize_t bytesRead = recv(backendSocket, buffer, sizeof(buffer), 0);
+            if (bytesRead <= 0) {
+                // Connection closed or error
+                break;
+            }
+            send(clientSocket, buffer, bytesRead, 0);
+        }
+    }
+
+    close(backendSocket);
     close(clientSocket);
+    logConnection("SSH", clientIP, "Session closed");
 }
 
 void handleFTPConnection(int clientSocket, const std::string& clientIP) {
