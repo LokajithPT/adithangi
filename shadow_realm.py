@@ -9,6 +9,8 @@ import random
 import subprocess
 import sys
 import socket
+import json
+import urllib.request
 
 # --- SILENCE PARAMIKO NOISE ---
 # Nmap scans cause Paramiko threads to crash noisily. We mute it.
@@ -84,6 +86,20 @@ def get_mac(ip):
     except: pass
     return "UNKNOWN (VPN/PROXY?)"
 
+def get_geolocation(ip):
+    """Query ip-api.com for geolocation data."""
+    if ip in ["127.0.0.1", "localhost", "0.0.0.0"]:
+        return "Localhost (Internal)"
+    try:
+        url = f"http://ip-api.com/json/{ip}"
+        with urllib.request.urlopen(url, timeout=5) as response:
+            data = json.loads(response.read().decode())
+            if data['status'] == 'success':
+                return f"{data.get('city', 'Unknown City')}, {data.get('country', 'Unknown Country')} ({data.get('isp', 'Unknown ISP')})"
+    except Exception as e:
+        return f"Geo-lookup Failed"
+    return "Unknown Location"
+
 def slow_type(chan, message, delay=0.05):
     """Simulates slow typing into the SSH channel."""
     try:
@@ -94,22 +110,38 @@ def slow_type(chan, message, delay=0.05):
     except: pass
 
 class TrapServer(paramiko.ServerInterface):
-    def __init__(self):
+    def __init__(self, victim_ip):
         self.event = threading.Event()
         self.command = None
+        self.victim_ip = victim_ip
+
     def check_channel_request(self, kind, chanid):
         return paramiko.OPEN_SUCCEEDED if kind == 'session' else paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
+
     def check_auth_password(self, username, password):
+        # LOG CREDENTIALS
+        log_entry = f"{time.ctime()},{self.victim_ip},{username},{password}\n"
+        try:
+            with open("captured_creds.csv", "a") as f:
+                f.write(log_entry)
+            print(f"{GREEN}[+] CAPTURED CREDENTIALS: {username}:{password} from {self.victim_ip}{RESET}")
+        except:
+            print(f"[-] Failed to log credentials for {self.victim_ip}")
+            
         return paramiko.AUTH_SUCCESSFUL
+
     def get_allowed_auths(self, username):
         return 'password'
+
     def check_channel_shell_request(self, channel):
         self.event.set()
         return True
+    
     def check_channel_exec_request(self, channel, command):
         self.command = command
         self.event.set()
         return True
+    
     def check_channel_pty_request(self, channel, term, width, height, pixelwidth, pixelheight, modes):
         return True
 
@@ -224,14 +256,25 @@ def handle_ssh_connection(client_sock, addr):
     except: pass
 
     victim_mac = get_mac(victim_ip)
-    print(f"[*] SSH TRAP: Connection from {victim_ip}")
+    
+    # 1. INTELLIGENCE: Geo-Location
+    location = get_geolocation(victim_ip)
+    print(f"[*] SSH TRAP: Connection from {victim_ip} [{location}]")
 
     try:
         t = paramiko.Transport(client_sock)
         t.local_version = "SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5" 
         t.add_server_key(HOST_KEY)
-        server = TrapServer()
+        
+        # 2. INTELLIGENCE: Pass IP to Server to log creds
+        server = TrapServer(victim_ip)
+        
         t.start_server(server=server)
+        
+        # 3. INTELLIGENCE: Fingerprint Client
+        client_version = t.remote_version
+        print(f"[*] Client Fingerprint ({victim_ip}): {client_version}")
+        
         chan = t.accept(20)
         if chan is None: return
         server.event.wait(10)
@@ -373,9 +416,12 @@ def handle_ssh_connection(client_sock, addr):
                 all_files = list(set(real_files + fake_files))
                 colored_files = []
                 for f in all_files:
-                    if f.endswith(".exe") or f.endswith(".sh") or f.endswith(".iso"): colored_files.append(f"{RED}{f}{RESET}")
-                    elif f.endswith((".db", ".txt", ".csv")): colored_files.append(f"{BLUE}{f}{RESET}")
-                    else: colored_files.append(f"{GREEN}{f}{RESET}")
+                    if f.endswith(".exe") or f.endswith(".sh") or f.endswith(".iso"):
+                        colored_files.append(f"{RED}{f}{RESET}")
+                    elif f.endswith((".db", ".txt", ".csv")):
+                        colored_files.append(f"{BLUE}{f}{RESET}")
+                    else:
+                        colored_files.append(f"{GREEN}{f}{RESET}")
                 slow_type(chan, "  ".join(colored_files))
                 continue
 

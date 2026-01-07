@@ -353,3 +353,136 @@
 [2026-01-08 02:15:12] SSH - 192.168.1.96 - Redirecting to Shadow Realm (Port 6666)...
 [2026-01-08 02:15:49] SSH - 192.168.1.96 - Session closed
 [2026-01-08 02:28:19] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 02:37:58] SSH - 192.168.1.97 - Session closed
+[2026-01-08 02:41:41] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 02:43:37] SSH - 192.168.1.97 - Session closed
+[2026-01-08 02:43:59] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:43:59] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:43:59] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 02:43:59] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:43:59] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:43:59] SSH - 192.168.1.97 - Session closed
+[2026-01-08 02:44:00] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:00] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:44:00] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 02:44:00] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:44:00] SSH - 192.168.1.97 - Session closed
+[2026-01-08 02:44:06] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:44:11] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:11] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:11] FTP - 192.168.1.97 - Command: HELP
+[2026-01-08 02:44:18] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:19] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:19] FTP - 192.168.1.97 - Command: GET / HTTP/1.0
+[2026-01-08 02:44:24] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:24] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:24] FTP - 192.168.1.97 - Command: OPTIONS / HTTP/1.0
+[2026-01-08 02:44:29] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:29] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:29] FTP - 192.168.1.97 - Command: OPTIONS / RTSP/1.0
+[2026-01-08 02:44:34] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:34] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:34] FTP - 192.168.1.97 - Command: \x80
+[2026-01-08 02:44:39] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:39] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:39] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:44:44] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:44] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:44] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:44:49] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:49] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:49] FTP - 192.168.1.97 - Command: \x16\x03
+[2026-01-08 02:44:54] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:44:54] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:44:54] FTP - 192.168.1.97 - Command: \x03
+[2026-01-08 02:45:00] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:00] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:00] FTP - 192.168.1.97 - Command: \x16\x03
+[2026-01-08 02:45:05] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:05] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:05] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:45:10] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:10] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:10] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:45:15] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:15] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:15] FTP - 192.168.1.97 - Command: l
+[2026-01-08 02:45:20] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:20] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:20] FTP - 192.168.1.97 - Command: GET /nice%20ports%2C/Tri%6Eity.txt%2ebak HTTP/1.0
+[2026-01-08 02:45:25] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:25] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:25] FTP - 192.168.1.97 - Command: \x01default
+[2026-01-08 02:45:30] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:30] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:30] FTP - 192.168.1.97 - Command: 0\x84
+[2026-01-08 02:45:35] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:35] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:35] FTP - 192.168.1.97 - Command: 0\x0c\x02\x01\x01`\x07\x02\x01\x02\x04
+[2026-01-08 02:45:40] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:40] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:40] FTP - 192.168.1.97 - Command: OPTIONS sip:nm SIP/2.0
+[2026-01-08 02:45:47] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:47] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:47] FTP - 192.168.1.97 - Command: TNMP\x04
+[2026-01-08 02:45:52] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:52] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:52] FTP - 192.168.1.97 - Command: \x03
+[2026-01-08 02:45:57] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:45:57] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:45:57] FTP - 192.168.1.97 - Command: DmdT
+[2026-01-08 02:46:02] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:02] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:02] FTP - 192.168.1.97 - Command: :
+[2026-01-08 02:46:07] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:07] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:07] FTP - 192.168.1.97 - Command: JRMI
+[2026-01-08 02:46:12] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:12] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:12] FTP - 192.168.1.97 - Command: \x01
+[2026-01-08 02:46:17] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:17] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:17] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:46:23] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:23] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:23] FTP - 192.168.1.97 - Command: \x12\x01
+[2026-01-08 02:46:28] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:28] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:28] FTP - 192.168.1.97 - Command: 
+[2026-01-08 02:46:33] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:46:33] FTP - 192.168.1.97 - Command: GIOP\x01
+[2026-01-08 02:46:33] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:38] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:46:38] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:46:38] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:46:38] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:46:38] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:47:30] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 02:47:30] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:47:30] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:47:30] SSH - 192.168.1.97 - Session closed
+[2026-01-08 02:47:31] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:47:31] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:47:54] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:47:54] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:47:54] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:47:54] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:47:54] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 02:47:54] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:47:54] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 02:47:54] SSH - 192.168.1.97 - Session closed
+[2026-01-08 02:49:08] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:49:08] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:49:08] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:49:08] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:51:22] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:51:24] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:51:24] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:52:38] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:52:38] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:52:39] FTP - 192.168.1.97 - Connection established
+[2026-01-08 02:52:39] FTP - 192.168.1.97 - Command: \x80
+[2026-01-08 02:52:39] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:52:39] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 02:52:39] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 02:52:40] FTP - 192.168.1.97 - Connection closed
