@@ -5,9 +5,13 @@ import random
 import sys
 import subprocess
 import re
+import paramiko
+from paramiko.py3compat import u
 
+# --- CONFIGURATION ---
 BIND_IP = "0.0.0.0"
-BIND_PORT = 6666
+BIND_PORT = 6666 # The firewall redirects here
+HOST_KEY = paramiko.RSAKey.generate(2048) # Generate a key on startup
 
 CREEPY_MESSAGES = [
     "I see you...",
@@ -24,15 +28,15 @@ CREEPY_MESSAGES = [
 ASCII_SKULL = """
       NO!
     .-"      "-.
-   /            \\
+   /            \
   |              |
-  |,  .-.  .-.  ,|
-  | )(__/  \\__)( |
-  |/     /\\     \\|
+  |,  .-.  .-.  , |
+  | )(__/  \__)( |
+  |/     /\     \|
   (_     ^^     _)
-   \\__|IIIIII|__/
-    | \\IIIIII/ |
-    \\          /
+   \__|IIIIII|__/
+    | \IIIIII/ |
+    \          /
      `--------`
    YOU ARE TRAPPED
 """
@@ -50,100 +54,170 @@ def get_mac(ip):
         pass
     return "UNKNOWN:LOCATION:HIDDEN"
 
-def slow_type(conn, message, delay=0.05):
-    """Simulates slow typing for maximum annoyance/creepiness."""
+def slow_type(chan, message, delay=0.05):
+    """Simulates slow typing into the SSH channel."""
     try:
         for char in message:
-            conn.send(char.encode())
+            chan.send(char)
             time.sleep(random.uniform(0.01, delay))
-        conn.send(b"\r\n")
-    except:
-        pass
+        chan.send("\r\n")
+    except: pass
 
-def handle_victim(conn, addr):
+class TrapServer(paramiko.ServerInterface):
+    def __init__(self):
+        self.event = threading.Event()
+
+    def check_channel_request(self, kind, chanid):
+        if kind == 'session':
+            return paramiko.OPEN_SUCCEEDED
+        return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
+
+    def check_auth_password(self, username, password):
+        # ACCEPT ALL PASSWORDS!
+        return paramiko.AUTH_SUCCESSFUL
+
+    def get_allowed_auths(self, username):
+        return 'password'
+
+    def check_channel_shell_request(self, channel):
+        self.event.set()
+        return True
+    
+    def check_channel_pty_request(self, channel, term, width, height, pixelwidth, pixelheight, modes):
+        return True
+
+def handle_ssh_connection(client_sock, addr):
     victim_ip = addr[0]
-    start_time = time.time()
-    # print(f"[*] VICTIM ENTERED THE SHADOW REALM: {victim_ip}") # Optional: Comment out to be super quiet
-    
-    # Try to find their MAC
     victim_mac = get_mac(victim_ip)
-    
+    print(f"[*] SSH TRAP: Connection from {victim_ip}")
+
     try:
-        # Initial Fake Banner
-        slow_type(conn, "Connected to INTERNAL_MAINFRAME_V9 [SECURE]", 0.05)
-        time.sleep(1)
+        t = paramiko.Transport(client_sock)
+        t.add_server_key(HOST_KEY)
+        server = TrapServer()
         
+        try:
+            t.start_server(server=server)
+        except paramiko.SSHException:
+            print(f"[-] SSH TRAP: Client {victim_ip} failed to start SSH server.")
+            return
+
+        # Wait for auth
+        chan = t.accept(20)
+        if chan is None:
+            print(f"[-] SSH TRAP: Client {victim_ip} did not open a channel.")
+            return
+
+        server.event.wait(10) # Wait for shell request
+        if not server.event.is_set():
+            print(f"[-] SSH TRAP: Client {victim_ip} did not request a shell.")
+            return
+
+        # --- THEATRICS START HERE ---
+        # Initial clear screen + Banner
+        chan.send("\033[2J\033[H") # Clear screen ANSI code
+        slow_type(chan, "Connected to INTERNAL_MAINFRAME_V9 [SECURE]", 0.05)
+        time.sleep(1)
+
         while True:
-            # Fake Prompt: PERSONALIZED
+            # Fake Prompt
             prompt = f"root@{victim_ip}:~# "
-            conn.send(prompt.encode())
+            chan.send(prompt)
             
-            # Read input
-            data = conn.recv(1024)
-            if not data:
-                break
-            
-            cmd = data.decode('utf-8', errors='ignore').strip()
+            # Read Input char by char to handle echo (basic shell emulation)
+            cmd = ""
+            # Handle potential EOF from client immediately
+            if chan.recv_ready():
+                char = chan.recv(1)
+                if not char: # EOF
+                    break
+                # Echo and collect first char
+                if char not in [b'\r', b'\n', b'\x7f']: # Not enter/backspace
+                    chan.send(char)
+                    cmd += char.decode('utf-8', errors='ignore')
+
+            # Continue reading if more input is available
+            while chan.recv_ready():
+                char = chan.recv(1)
+                if not char: break # EOF
+                
+                # Handle Enter
+                if char == b'\r' or char == b'\n':
+                    chan.send("\r\n")
+                    break
+                
+                # Handle Backspace (Basic)
+                if char == b'\x7f':
+                    if len(cmd) > 0:
+                        cmd = cmd[:-1]
+                        chan.send("\b \b") # Erase on terminal
+                    continue
+                
+                # Echo back and store
+                chan.send(char)
+                cmd += char.decode('utf-8', errors='ignore')
+
+            if not cmd: 
+                # If command is empty, send just a newline for a new prompt
+                if not char: # If EOF from last read
+                    break
+                else:
+                    continue # Wait for next input
             
             # Artificial Lag
-            time.sleep(random.uniform(0.2, 0.8))
-            
-            # --- CUSTOM COMMANDS FOR THE SHOW ---
+            time.sleep(random.uniform(0.2, 0.5))
+
+            # --- CUSTOM COMMANDS ---
             if cmd == "whoami":
                 response = f"USER: root\nREAL_ID: {victim_ip}\nMAC_ADDR: {victim_mac}\nSTATUS: OWNED"
-                slow_type(conn, response, 0.05)
+                slow_type(chan, response)
                 continue
 
             if cmd == "ls" or cmd == "dir":
-                response = "secrets.db  passwords.txt  nudes.zip  DO_NOT_OPEN.exe"
-                slow_type(conn, response, 0.05)
+                slow_type(chan, "secrets.db  passwords.txt  nudes.zip  DO_NOT_OPEN.exe")
                 continue
-                
+
             if cmd == "cat secrets.db" or cmd == "cat passwords.txt":
-                slow_type(conn, "ACCESS DENIED. BIOMETRIC SCAN REQUIRED.", 0.1)
-                slow_type(conn, "SCANNING FINGERPRINT...", 0.2)
-                slow_type(conn, "ERROR: FINGERPRINT NOT RECOGNIZED.", 0.05)
+                slow_type(chan, "ACCESS DENIED. BIOMETRIC SCAN REQUIRED.", 0.1)
+                slow_type(chan, "SCANNING FINGERPRINT...", 0.2)
+                slow_type(chan, "ERROR: FINGERPRINT NOT RECOGNIZED.", 0.05)
                 continue
 
             if cmd == "reveal":
-                conn.send(ASCII_SKULL.encode())
-                continue
-                
-            if cmd == "exit" or cmd == "quit":
-                slow_type(conn, "THERE IS NO ESCAPE.", 0.2)
+                chan.send(ASCII_SKULL + "\r\n")
                 continue
 
-            # --- RANDOM CREEPINESS ---
-            # 10% chance to just print a creepy message
+            if cmd == "exit" or cmd == "quit":
+                slow_type(chan, "THERE IS NO ESCAPE.")
+                break # Exit the while loop to close channel
+
+            # Random Creepiness
             if random.random() < 0.1:
-                slow_type(conn, random.choice(CREEPY_MESSAGES), 0.1)
+                slow_type(chan, random.choice(CREEPY_MESSAGES))
                 continue
-            
-            if cmd:
-                response = f"bash: {cmd}: command not found... or is it?"
-                slow_type(conn, response, 0.05)
+
+            # Command not found
+            slow_type(chan, f"bash: {cmd}: command not found... or is it?")
 
     except Exception as e:
-        pass
+        print(f"[-] SSH TRAP: Error handling {victim_ip}: {e}")
     finally:
-        duration = time.time() - start_time
-        if duration > 1.0:
-            print(f"[-] Victim {victim_ip} escaped after {duration:.1f}s.")
-        conn.close()
+        print(f"[-] SSH TRAP: Victim {victim_ip} disconnected.")
+        try: t.close()
+        except: pass
 
 def start_server():
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server.bind((BIND_IP, BIND_PORT))
-    server.listen(5)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind((BIND_IP, BIND_PORT))
+    sock.listen(100)
     
-    print(f"[*] THE SHADOW REALM IS OPEN ON PORT {BIND_PORT}")
-    print("[*] Waiting for redirected souls...")
-    
+    print(f"[*] SSH SHADOW REALM LISTENING ON PORT {BIND_PORT}")
+    print("[*] Ready to accept redirected SSH connections...")
+
     while True:
-        client, addr = server.accept()
-        client_handler = threading.Thread(target=handle_victim, args=(client, addr))
-        client_handler.start()
+        client, addr = sock.accept()
+        threading.Thread(target=handle_ssh_connection, args=(client, addr)).start()
 
 if __name__ == "__main__":
     start_server()
