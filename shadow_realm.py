@@ -1,12 +1,11 @@
-import socket
-import threading
-import time
-import random
-import sys
-import subprocess
 import re
 import os
 import paramiko
+import logging
+
+# --- SILENCE PARAMIKO NOISE ---
+# Nmap scans cause Paramiko threads to crash noisily. We mute it.
+logging.getLogger("paramiko").setLevel(logging.CRITICAL)
 
 # --- CONFIGURATION ---
 BIND_IP = "0.0.0.0"
@@ -210,25 +209,31 @@ def handle_ssh_connection(client_sock, addr):
 
     try:
         t = paramiko.Transport(client_sock)
+        # DISGUISE: Look like a real Ubuntu Server to Nmap
+        t.local_version = "SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5" 
         t.add_server_key(HOST_KEY)
         server = TrapServer()
         
         try:
             t.start_server(server=server)
-        except paramiko.SSHException as e:
-            print(f"[-] SSH TRAP: Client {victim_ip} SSH negotiation failed: {e}")
+        except (paramiko.SSHException, EOFError):
+            # Nmap and scanners often disconnect during handshake or send garbage
+            # We ignore this to keep logs clean and server stable
+            return
+        except Exception as e:
+            print(f"[-] SSH TRAP: Negotiation Error with {victim_ip}: {e}")
             return
 
         # Wait for auth
         chan = t.accept(20)
         if chan is None:
-            print(f"[-] SSH TRAP: Client {victim_ip} did not open a channel (Auth failed/Timeout).")
+            # print(f"[-] SSH TRAP: Client {victim_ip} did not open a channel (Auth failed/Timeout).")
             return
         
         # Wait for shell OR exec request (SCP)
         server.event.wait(10)
         if not server.event.is_set():
-            print(f"[-] SSH TRAP: Client {victim_ip} did not request a shell or command.")
+            # print(f"[-] SSH TRAP: Client {victim_ip} did not request a shell or command.")
             return
 
         # CHECK: Is this SCP (exec) or Shell?
