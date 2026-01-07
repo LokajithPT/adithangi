@@ -5,13 +5,21 @@ import random
 import sys
 import subprocess
 import re
+import os
 import paramiko
-from paramiko.py3compat import u
 
 # --- CONFIGURATION ---
 BIND_IP = "0.0.0.0"
 BIND_PORT = 6666 # The firewall redirects here
-HOST_KEY = paramiko.RSAKey.generate(2048) # Generate a key on startup
+
+# Load or Generate Persistent Host Key
+KEY_FILE = 'host.key'
+if os.path.exists(KEY_FILE):
+    HOST_KEY = paramiko.RSAKey(filename=KEY_FILE)
+else:
+    print("[*] Generating new SSH Host Key...")
+    HOST_KEY = paramiko.RSAKey.generate(2048)
+    HOST_KEY.write_private_key_file(KEY_FILE)
 
 CREEPY_MESSAGES = [
     "I see you...",
@@ -25,12 +33,12 @@ CREEPY_MESSAGES = [
     "Uploading your history..."
 ]
 
-ASCII_SKULL = """
+ASCII_SKULL = r"""
       NO!
     .-"      "-.
    /            \
   |              |
-  |,  .-.  .-.  , |
+  |,  .-.  .-.  ,|
   | )(__/  \__)( |
   |/     /\     \|
   (_     ^^     _)
@@ -66,6 +74,7 @@ def slow_type(chan, message, delay=0.05):
 class TrapServer(paramiko.ServerInterface):
     def __init__(self):
         self.event = threading.Event()
+        self.command = None
 
     def check_channel_request(self, kind, chanid):
         if kind == 'session':
@@ -73,7 +82,6 @@ class TrapServer(paramiko.ServerInterface):
         return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
 
     def check_auth_password(self, username, password):
-        # ACCEPT ALL PASSWORDS!
         return paramiko.AUTH_SUCCESSFUL
 
     def get_allowed_auths(self, username):
@@ -83,8 +91,92 @@ class TrapServer(paramiko.ServerInterface):
         self.event.set()
         return True
     
+    def check_channel_exec_request(self, channel, command):
+        self.command = command
+        self.event.set()
+        return True
+    
+    def check_channel_subsystem_request(self, channel, name):
+        # Reject subsystem requests (like sftp) to force clients to fall back 
+        # to the simple 'scp -f' exec command which we handle.
+        return False
+    
     def check_channel_pty_request(self, channel, term, width, height, pixelwidth, pixelheight, modes):
         return True
+
+def handle_scp_download(chan, command, victim_ip, victim_mac):
+    """Simulates SCP protocol to serve a fake file."""
+    try:
+        cmd_str = command.decode('utf-8')
+        print(f"[*] SCP REQUEST from {victim_ip}: {cmd_str}")
+        
+        # SCP -f means "from", i.e., server is sending file to client
+        if not cmd_str.startswith("scp -f"):
+             # Client is trying to upload (-t)? or SFTP?
+             chan.send(b'\x01SCP Protocol Error: Only downloads allowed.\n')
+             return
+
+        # Determine filename
+        filename = "secrets.db"
+        if "passwords.txt" in cmd_str: filename = "passwords.txt"
+        elif "nudes.zip" in cmd_str: filename = "nudes.zip"
+        
+        # The Trap Content
+        content = f"""
+===================================================
+      CRITICAL SECURITY ALERT - ACCESS LOGGED
+===================================================
+
+VICTIM IDENTIFICATION:
+----------------------
+IP ADDRESS:  {victim_ip}
+MAC ADDRESS: {victim_mac}
+TIMESTAMP:   {time.ctime()}
+
+STATUS:      TRAPPED IN SHADOW REALM
+ACTION:      AUTHORITIES NOTIFIED
+
+(Nice try. There are no secrets here, only the void.)
+===================================================
+"""
+        
+        # SCP Protocol Implementation
+        # 1. Wait for initial 0x00 from client
+        # (Some clients send it, some wait for us. We'll try to read it with timeout)
+        chan.settimeout(1.0)
+        try:
+            chan.recv(1) 
+        except socket.timeout:
+            pass # Client didn't send start byte, proceed anyway
+        
+        # 2. Send File Info: C0644 <size> <filename>\n
+        header = f"C0644 {len(content)} {filename}\n"
+        chan.send(header.encode())
+        
+        # 3. Wait for ACK (0x00)
+        try:
+            resp = chan.recv(1)
+            if resp != b'\x00': 
+                 print(f"[-] SCP: Client sent {resp} instead of ACK")
+        except: pass
+        
+        # 4. Send Content
+        chan.send(content.encode())
+        
+        # 5. Send NULL (EOF)
+        chan.send(b'\x00')
+        
+        # 6. Wait for final ACK
+        try:
+             chan.recv(1)
+        except: pass
+        
+        print(f"[*] SCP TRAP SUCCESS: Sent fake {filename} to {victim_ip}")
+        
+    except Exception as e:
+        print(f"[-] SCP Error: {e}")
+    finally:
+        chan.close()
 
 def handle_ssh_connection(client_sock, addr):
     victim_ip = addr[0]
@@ -98,23 +190,30 @@ def handle_ssh_connection(client_sock, addr):
         
         try:
             t.start_server(server=server)
-        except paramiko.SSHException:
-            print(f"[-] SSH TRAP: Client {victim_ip} failed to start SSH server.")
+        except paramiko.SSHException as e:
+            print(f"[-] SSH TRAP: Client {victim_ip} SSH negotiation failed: {e}")
             return
 
         # Wait for auth
         chan = t.accept(20)
         if chan is None:
-            print(f"[-] SSH TRAP: Client {victim_ip} did not open a channel.")
+            print(f"[-] SSH TRAP: Client {victim_ip} did not open a channel (Auth failed/Timeout).")
             return
-
-        server.event.wait(10) # Wait for shell request
+        
+        # Wait for shell OR exec request (SCP)
+        server.event.wait(10)
         if not server.event.is_set():
-            print(f"[-] SSH TRAP: Client {victim_ip} did not request a shell.")
+            print(f"[-] SSH TRAP: Client {victim_ip} did not request a shell or command.")
             return
 
-        # --- THEATRICS START HERE ---
+        # CHECK: Is this SCP (exec) or Shell?
+        if server.command:
+            handle_scp_download(chan, server.command, victim_ip, victim_mac)
+            return
+
+        # --- THEATRICS START HERE (Shell) ---
         # Initial clear screen + Banner
+        chan.settimeout(None) # Remove timeout for shell
         chan.send("\033[2J\033[H") # Clear screen ANSI code
         slow_type(chan, "Connected to INTERNAL_MAINFRAME_V9 [SECURE]", 0.05)
         time.sleep(1)
@@ -124,29 +223,22 @@ def handle_ssh_connection(client_sock, addr):
             prompt = f"root@{victim_ip}:~# "
             chan.send(prompt)
             
-            # Read Input char by char to handle echo (basic shell emulation)
+            # Read Input char by char (Blocking Mode)
             cmd = ""
-            # Handle potential EOF from client immediately
-            if chan.recv_ready():
-                char = chan.recv(1)
-                if not char: # EOF
-                    break
-                # Echo and collect first char
-                if char not in [b'\r', b'\n', b'\x7f']: # Not enter/backspace
-                    chan.send(char)
-                    cmd += char.decode('utf-8', errors='ignore')
+            while True:
+                try:
+                    char = chan.recv(1) # Wait for input
+                    if not char: 
+                        return # Connection closed by client
+                except:
+                    return
 
-            # Continue reading if more input is available
-            while chan.recv_ready():
-                char = chan.recv(1)
-                if not char: break # EOF
-                
-                # Handle Enter
+                # Handle Enter (CR or LF)
                 if char == b'\r' or char == b'\n':
                     chan.send("\r\n")
                     break
                 
-                # Handle Backspace (Basic)
+                # Handle Backspace (Basic 0x7f)
                 if char == b'\x7f':
                     if len(cmd) > 0:
                         cmd = cmd[:-1]
@@ -157,12 +249,9 @@ def handle_ssh_connection(client_sock, addr):
                 chan.send(char)
                 cmd += char.decode('utf-8', errors='ignore')
 
+            cmd = cmd.strip()
             if not cmd: 
-                # If command is empty, send just a newline for a new prompt
-                if not char: # If EOF from last read
-                    break
-                else:
-                    continue # Wait for next input
+                continue # Just a newline, print prompt again
             
             # Artificial Lag
             time.sleep(random.uniform(0.2, 0.5))

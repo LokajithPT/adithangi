@@ -150,6 +150,7 @@ def main():
     # Statistics for thresholding
     train_scores = []
     threshold = 0.0
+    trapped_ips = set() # Track who is already in the Shadow Realm
     
     # Logging
     log_file = "ids_events.json"
@@ -243,13 +244,21 @@ def main():
                 
                 status = "BENIGN"
                 if score > threshold:
+                    # CHECK: Is this IP already trapped?
+                    if src_ip in trapped_ips:
+                        # Optional: Print a small reminder or stay silent
+                        # print(f"[DEBUG] {src_ip} is still attacking from the Shadow Realm.")
+                        continue 
+
                     status = "MALICIOUS"
                     print(f"[ALERT] Anomaly detected from {src_ip}! Score: {score:.5f} (Thresh: {threshold:.5f})")
                     
                     # 4. React (Log & SHADOW REALM)
                     action_taken = "Banished to Shadow Realm"
                     blocked = block_ip(src_ip)
-                    if not blocked:
+                    if blocked:
+                         trapped_ips.add(src_ip) # Add to set so we don't spam
+                    else:
                          action_taken = "Detected (Whitelisted/Failed)"
 
                     event = {
