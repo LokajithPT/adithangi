@@ -486,3 +486,451 @@
 [2026-01-08 02:52:39] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
 [2026-01-08 02:52:39] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
 [2026-01-08 02:52:40] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 03:12:42] SSH - 192.168.1.97 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 03:12:42] FTP - 192.168.1.97 - Connection established
+[2026-01-08 03:12:42] SSH - 192.168.1.97 - Session closed
+[2026-01-08 03:12:42] FTP - 192.168.1.97 - Connection closed
+[2026-01-08 03:12:43] HTTP-TARPIT - 192.168.1.97 - Connection established - TRAP ACTIVATED
+[2026-01-08 03:12:43] HTTP-TARPIT - 192.168.1.97 - Victim disconnected (Trap Success)
+[2026-01-08 10:38:51] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 10:38:51] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:38:51] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 10:38:51] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 10:38:52] SSH - 10.191.153.151 - Session closed
+[2026-01-08 10:38:57] FTP - 10.191.153.151 - Command: 
+[2026-01-08 10:39:02] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:02] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:02] FTP - 10.191.153.151 - Command: HELP
+[2026-01-08 10:39:10] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:10] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:10] FTP - 10.191.153.151 - Command: GET / HTTP/1.0
+[2026-01-08 10:39:15] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:15] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:15] FTP - 10.191.153.151 - Command: OPTIONS / HTTP/1.0
+[2026-01-08 10:39:21] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:21] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:21] FTP - 10.191.153.151 - Command: OPTIONS / RTSP/1.0
+[2026-01-08 10:39:26] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:27] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:27] FTP - 10.191.153.151 - Command: \x80
+[2026-01-08 10:39:32] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:32] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:32] FTP - 10.191.153.151 - Command: 
+[2026-01-08 10:39:37] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:37] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:37] FTP - 10.191.153.151 - Command: 
+[2026-01-08 10:39:42] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:42] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:42] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 10:39:49] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:49] FTP - 10.191.153.151 - Command: \x03
+[2026-01-08 10:39:49] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:54] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:54] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:54] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 10:39:59] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:39:59] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:39:59] FTP - 10.191.153.151 - Command: 
+[2026-01-08 10:40:05] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:40:05] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:40:05] FTP - 10.191.153.151 - Command: 
+[2026-01-08 10:40:11] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:40:18] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 10:40:18] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 10:40:19] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 10:40:47] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 10:40:47] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 10:41:07] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 10:41:07] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 10:41:07] FTP - 10.191.153.151 - Connection established
+[2026-01-08 10:41:07] FTP - 10.191.153.151 - Command: \x80
+[2026-01-08 10:41:07] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 10:41:07] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 10:41:07] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 10:41:08] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 10:44:29] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 10:55:29] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:05:30] SSH - 10.97.115.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:06:05] SSH - 10.97.115.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:09:28] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:13:27] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:13:32] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:24:03] SSH - 10.97.115.151 - Session closed
+[2026-01-08 13:25:13] SSH - 10.97.115.151 - Session closed
+[2026-01-08 13:25:13] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:25:30] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:27:55] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:28:00] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:28:00] SSH - 10.191.153.151 - Failed to connect to Shadow Realm (Is it running?)
+[2026-01-08 13:29:21] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:29:46] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:31:04] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:04] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:31:04] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:31:04] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:31:05] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:31:10] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:31:15] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:15] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:15] FTP - 10.191.153.151 - Command: HELP
+[2026-01-08 13:31:23] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:23] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:23] FTP - 10.191.153.151 - Command: GET / HTTP/1.0
+[2026-01-08 13:31:28] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:28] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:28] FTP - 10.191.153.151 - Command: OPTIONS / HTTP/1.0
+[2026-01-08 13:31:33] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:34] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:34] FTP - 10.191.153.151 - Command: OPTIONS / RTSP/1.0
+[2026-01-08 13:31:39] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:39] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:39] FTP - 10.191.153.151 - Command: \x80
+[2026-01-08 13:31:44] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:44] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:44] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:31:49] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:50] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:50] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:31:55] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:31:55] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:31:55] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 13:32:00] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:00] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:00] FTP - 10.191.153.151 - Command: \x03
+[2026-01-08 13:32:05] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:05] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:05] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 13:32:10] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:10] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:10] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:32:15] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:15] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:15] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:32:20] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:20] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:20] FTP - 10.191.153.151 - Command: l
+[2026-01-08 13:32:25] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:25] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:25] FTP - 10.191.153.151 - Command: GET /nice%20ports%2C/Tri%6Eity.txt%2ebak HTTP/1.0
+[2026-01-08 13:32:30] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:30] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:30] FTP - 10.191.153.151 - Command: \x01default
+[2026-01-08 13:32:35] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:35] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:35] FTP - 10.191.153.151 - Command: 0\x84
+[2026-01-08 13:32:40] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:40] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:40] FTP - 10.191.153.151 - Command: 0\x0c\x02\x01\x01`\x07\x02\x01\x02\x04
+[2026-01-08 13:32:45] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:45] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:45] FTP - 10.191.153.151 - Command: OPTIONS sip:nm SIP/2.0
+[2026-01-08 13:32:53] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:53] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:53] FTP - 10.191.153.151 - Command: TNMP\x04
+[2026-01-08 13:32:58] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:32:58] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:32:58] FTP - 10.191.153.151 - Command: \x03
+[2026-01-08 13:33:03] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:03] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:03] FTP - 10.191.153.151 - Command: DmdT
+[2026-01-08 13:33:08] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:08] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:08] FTP - 10.191.153.151 - Command: :
+[2026-01-08 13:33:13] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:13] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:13] FTP - 10.191.153.151 - Command: JRMI
+[2026-01-08 13:33:18] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:18] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:18] FTP - 10.191.153.151 - Command: \x01
+[2026-01-08 13:33:23] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:23] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:23] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:33:28] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:28] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:28] FTP - 10.191.153.151 - Command: \x12\x01
+[2026-01-08 13:33:33] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:33] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:33] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:33:38] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:38] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:33:38] FTP - 10.191.153.151 - Command: GIOP\x01
+[2026-01-08 13:33:43] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:33:43] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:33:43] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:33:43] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:33:43] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:34:18] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:34:23] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:34:24] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:34:24] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:34:55] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:34:55] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:35:27] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:35:29] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:35:29] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:35:29] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:35:29] FTP - 10.191.153.151 - Command: \x80
+[2026-01-08 13:35:29] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:35:29] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:35:29] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:35:30] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:56:49] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 13:56:49] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:56:49] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:56:49] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:56:55] SSH - 10.191.153.151 - Session closed
+[2026-01-08 13:56:55] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:57:00] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:00] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:00] FTP - 10.191.153.151 - Command: HELP
+[2026-01-08 13:57:08] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:08] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:08] FTP - 10.191.153.151 - Command: GET / HTTP/1.0
+[2026-01-08 13:57:13] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:13] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:13] FTP - 10.191.153.151 - Command: OPTIONS / HTTP/1.0
+[2026-01-08 13:57:18] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:18] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:18] FTP - 10.191.153.151 - Command: OPTIONS / RTSP/1.0
+[2026-01-08 13:57:23] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:23] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:23] FTP - 10.191.153.151 - Command: \x80
+[2026-01-08 13:57:28] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:28] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:28] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:57:33] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:33] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:33] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:57:38] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:38] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:38] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 13:57:43] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:43] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:43] FTP - 10.191.153.151 - Command: \x03
+[2026-01-08 13:57:48] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:48] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:48] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 13:57:53] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:53] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:53] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:57:58] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:57:58] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:57:58] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:58:03] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:03] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:03] FTP - 10.191.153.151 - Command: l
+[2026-01-08 13:58:08] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:08] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:08] FTP - 10.191.153.151 - Command: GET /nice%20ports%2C/Tri%6Eity.txt%2ebak HTTP/1.0
+[2026-01-08 13:58:13] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:13] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:13] FTP - 10.191.153.151 - Command: \x01default
+[2026-01-08 13:58:18] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:18] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:18] FTP - 10.191.153.151 - Command: 0\x84
+[2026-01-08 13:58:23] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:23] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:23] FTP - 10.191.153.151 - Command: 0\x0c\x02\x01\x01`\x07\x02\x01\x02\x04
+[2026-01-08 13:58:28] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:28] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:28] FTP - 10.191.153.151 - Command: OPTIONS sip:nm SIP/2.0
+[2026-01-08 13:58:36] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:36] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:36] FTP - 10.191.153.151 - Command: TNMP\x04
+[2026-01-08 13:58:41] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:41] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:41] FTP - 10.191.153.151 - Command: \x03
+[2026-01-08 13:58:46] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:46] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:46] FTP - 10.191.153.151 - Command: DmdT
+[2026-01-08 13:58:51] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:51] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:51] FTP - 10.191.153.151 - Command: :
+[2026-01-08 13:58:56] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:58:56] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:58:56] FTP - 10.191.153.151 - Command: JRMI
+[2026-01-08 13:59:01] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:59:01] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:59:01] FTP - 10.191.153.151 - Command: \x01
+[2026-01-08 13:59:06] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:59:06] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:59:06] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:59:11] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:59:11] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:59:11] FTP - 10.191.153.151 - Command: \x12\x01
+[2026-01-08 13:59:16] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:59:16] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:59:16] FTP - 10.191.153.151 - Command: 
+[2026-01-08 13:59:21] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:59:21] FTP - 10.191.153.151 - Connection established
+[2026-01-08 13:59:21] FTP - 10.191.153.151 - Command: GIOP\x01
+[2026-01-08 13:59:26] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 13:59:26] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:59:26] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:59:26] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 13:59:26] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:59:28] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:59:28] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 13:59:44] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 14:00:06] SSH - 10.191.153.151 - Session closed
+[2026-01-08 14:00:51] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 14:13:53] SSH - 10.191.153.151 - Session closed
+[2026-01-08 14:14:04] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-08 14:14:04] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:04] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-08 14:14:04] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-08 14:14:05] SSH - 10.191.153.151 - Session closed
+[2026-01-08 14:14:10] FTP - 10.191.153.151 - Command: 
+[2026-01-08 14:14:15] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:15] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:15] FTP - 10.191.153.151 - Command: HELP
+[2026-01-08 14:14:22] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:22] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:22] FTP - 10.191.153.151 - Command: GET / HTTP/1.0
+[2026-01-08 14:14:27] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:27] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:27] FTP - 10.191.153.151 - Command: OPTIONS / HTTP/1.0
+[2026-01-08 14:14:32] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:32] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:32] FTP - 10.191.153.151 - Command: OPTIONS / RTSP/1.0
+[2026-01-08 14:14:37] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:37] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:37] FTP - 10.191.153.151 - Command: \x80
+[2026-01-08 14:14:42] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:42] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:42] FTP - 10.191.153.151 - Command: 
+[2026-01-08 14:14:47] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:47] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:47] FTP - 10.191.153.151 - Command: 
+[2026-01-08 14:14:52] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:52] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:52] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 14:14:57] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:14:57] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:14:57] FTP - 10.191.153.151 - Command: \x03
+[2026-01-08 14:15:02] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:15:02] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:15:02] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-08 14:15:07] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:15:07] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:15:07] FTP - 10.191.153.151 - Command: 
+[2026-01-08 14:15:12] FTP - 10.191.153.151 - Connection closed
+[2026-01-08 14:15:12] FTP - 10.191.153.151 - Connection established
+[2026-01-08 14:15:12] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:35:39] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 11:35:39] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:35:39] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-09 11:35:39] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-09 11:35:40] SSH - 10.191.153.151 - Session closed
+[2026-01-09 11:35:45] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:35:50] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:35:50] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:35:50] FTP - 10.191.153.151 - Command: HELP
+[2026-01-09 11:35:58] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:35:58] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:35:58] FTP - 10.191.153.151 - Command: GET / HTTP/1.0
+[2026-01-09 11:36:03] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:03] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:03] FTP - 10.191.153.151 - Command: OPTIONS / HTTP/1.0
+[2026-01-09 11:36:08] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:08] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:08] FTP - 10.191.153.151 - Command: OPTIONS / RTSP/1.0
+[2026-01-09 11:36:13] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:14] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:14] FTP - 10.191.153.151 - Command: \x80
+[2026-01-09 11:36:19] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:20] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:20] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:36:25] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:25] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:25] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:36:30] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:30] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:30] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-09 11:36:36] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:36] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:36] FTP - 10.191.153.151 - Command: \x03
+[2026-01-09 11:36:41] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:41] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:41] FTP - 10.191.153.151 - Command: \x16\x03
+[2026-01-09 11:36:46] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:47] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:47] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:36:52] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:36:54] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:36:54] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:37:00] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:01] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:01] FTP - 10.191.153.151 - Command: l
+[2026-01-09 11:37:05] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:05] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:05] FTP - 10.191.153.151 - Command: GET /nice%20ports%2C/Tri%6Eity.txt%2ebak HTTP/1.0
+[2026-01-09 11:37:10] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:11] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:11] FTP - 10.191.153.151 - Command: \x01default
+[2026-01-09 11:37:16] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:16] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:16] FTP - 10.191.153.151 - Command: 0\x84
+[2026-01-09 11:37:21] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:22] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:22] FTP - 10.191.153.151 - Command: 0\x0c\x02\x01\x01`\x07\x02\x01\x02\x04
+[2026-01-09 11:37:27] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:27] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:27] FTP - 10.191.153.151 - Command: OPTIONS sip:nm SIP/2.0
+[2026-01-09 11:37:35] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:35] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:35] FTP - 10.191.153.151 - Command: TNMP\x04
+[2026-01-09 11:37:40] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:42] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:42] FTP - 10.191.153.151 - Command: \x03
+[2026-01-09 11:37:47] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:47] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:47] FTP - 10.191.153.151 - Command: DmdT
+[2026-01-09 11:37:52] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:52] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:52] FTP - 10.191.153.151 - Command: :
+[2026-01-09 11:37:58] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:37:58] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:37:58] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 11:37:58] FTP - 10.191.153.151 - Command: JRMI
+[2026-01-09 11:38:03] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:38:03] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:38:03] FTP - 10.191.153.151 - Command: \x01
+[2026-01-09 11:38:08] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:38:08] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:38:08] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:38:08] SSH - 10.191.153.151 - Session closed
+[2026-01-09 11:38:13] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:38:13] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:38:13] FTP - 10.191.153.151 - Command: \x12\x01
+[2026-01-09 11:38:18] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:38:18] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:38:18] FTP - 10.191.153.151 - Command: 
+[2026-01-09 11:38:24] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:38:24] FTP - 10.191.153.151 - Connection established
+[2026-01-09 11:38:24] FTP - 10.191.153.151 - Command: GIOP\x01
+[2026-01-09 11:38:29] FTP - 10.191.153.151 - Connection closed
+[2026-01-09 11:38:32] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-09 11:38:32] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-09 11:38:33] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-09 11:38:33] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-09 11:38:34] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-09 11:38:35] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-09 11:38:35] HTTP-TARPIT - 10.191.153.151 - Connection established - TRAP ACTIVATED
+[2026-01-09 11:38:35] HTTP-TARPIT - 10.191.153.151 - Victim disconnected (Trap Success)
+[2026-01-09 11:54:25] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 11:54:52] SSH - 10.191.153.151 - Session closed
+[2026-01-09 11:58:37] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 12:02:15] SSH - 10.191.153.151 - Session closed
+[2026-01-09 12:02:24] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 12:02:56] SSH - 10.191.153.151 - Session closed
+[2026-01-09 12:09:09] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 12:29:10] SSH - 10.191.153.151 - Session closed
+[2026-01-09 12:32:30] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 12:35:02] SSH - 10.191.153.151 - Session closed
+[2026-01-09 13:07:51] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 13:13:03] SSH - 10.191.153.151 - Session closed
+[2026-01-09 13:32:06] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 13:54:18] SSH - 10.191.153.151 - Session closed
+[2026-01-09 14:06:57] SSH - 10.191.153.151 - Redirecting to Shadow Realm (Port 6666)...
+[2026-01-09 14:20:31] SSH - 10.191.153.151 - Session closed

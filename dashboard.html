@@ -3,110 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KITSUNE IDS | LIVE MONITOR</title>
+    <title>SHADOW REALM // COMMAND CENTER</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #050505;
+            --panel-bg: rgba(20, 20, 25, 0.7);
+            --border-color: #333;
+            --primary-color: #00ff41; /* Hacker Green */
+            --danger-color: #ff003c; /* Cyberpunk Red */
+            --warning-color: #fcee0a; /* Cyber Yellow */
+            --text-color: #e0e0e0;
+            --font-main: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            background-color: #0d0d0d;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 50% 50%, #111 0%, #000 100%),
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow: hidden;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 60px 1fr;
         }
-        h1 {
-            text-align: center;
-            border-bottom: 2px solid #00ff41;
-            padding-bottom: 10px;
+
+        /* --- HEADER --- */
+        header {
+            background: rgba(0,0,0,0.8);
+            border-bottom: 1px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+            z-index: 100;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+            letter-spacing: 2px;
         }
-        th, td {
-            border: 1px solid #333;
+
+        .status-indicators {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .blink {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* --- PANELS --- */
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            border-radius: 4px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            opacity: 0.5;
+        }
+
+        .panel-title {
+            font-size: 12px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- STATS SIDEBAR --- */
+        .stats-panel { grid-row: 1 / 3; }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.02);
+            border-left: 3px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .stat-card.danger { border-color: var(--danger-color); }
+        .stat-card.warning { border-color: var(--warning-color); }
+
+        .stat-value { font-size: 28px; font-weight: bold; margin: 5px 0; }
+        .stat-label { font-size: 10px; opacity: 0.7; }
+
+        /* --- CENTER GRAPHS --- */
+        .graph-panel { grid-column: 2 / 3; grid-row: 1 / 2; }
+        
+        /* --- LOGS --- */
+        .logs-panel { 
+            grid-column: 2 / 3; 
+            grid-row: 2 / 3; 
+            font-size: 12px;
+        }
+
+        .log-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .log-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            gap: 15px;
+        }
+        .log-time { color: #666; width: 80px; }
+        .log-ip { color: var(--warning-color); width: 120px; }
+        .log-msg { color: var(--text-color); }
+        .log-entry.critical .log-msg { color: var(--danger-color); text-shadow: 0 0 2px var(--danger-color); }
+
+        /* --- CREDENTIALS / TRAPS --- */
+        .creds-panel { grid-column: 3 / 4; grid-row: 1 / 3; }
+
+        .cred-item {
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid var(--danger-color);
             padding: 10px;
-            text-align: left;
+            margin-bottom: 10px;
+            font-size: 11px;
         }
-        th {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
-        tr.malicious {
-            background-color: #330000;
-            color: #ff3333;
-            animation: flash 1s infinite alternate;
-        }
-        @keyframes flash {
-            from { background-color: #330000; }
-            to { background-color: #550000; }
-        }
-        .status-box {
-            border: 1px solid #00ff41;
-            padding: 10px;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
+        .cred-user { color: var(--primary-color); font-weight: bold; }
+        .cred-pass { color: #fff; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
     </style>
 </head>
 <body>
-    <h1>ADITHANGIIII :: LIVE THREAT MONITOR</h1>
-    
-    <div class="status-box">
-        SYSTEM STATUS: <span id="sys-status">ACTIVE</span><br>
-        LAST UPDATE: <span id="last-update">Waiting...</span>
+
+    <header>
+        <div class="logo">ADITHANGIII v1.0 </div>
+        <div class="status-indicators">
+            <div class="status-item"><div class="blink"></div> SYSTEM ONLINE</div>
+            <div class="status-item" style="color: var(--danger-color);">THREAT LEVEL: CRITICAL</div>
+            <div class="status-item">UPTIME: 42:10:09</div>
+        </div>
+    </header>
+
+    <div class="dashboard-grid">
+        
+        <!-- SIDEBAR STATS -->
+        <div class="panel stats-panel">
+            <div class="panel-title">LIVE METRICS</div>
+            
+            <div class="stat-card danger">
+                <div class="stat-label">TOTAL ATTACKS</div>
+                <div class="stat-value" id="count-attacks">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">UNIQUE IPS</div>
+                <div class="stat-value" id="count-ips">0</div>
+            </div>
+
+            <div class="stat-card warning">
+                <div class="stat-label">CREDS HARVESTED</div>
+                <div class="stat-value" id="count-creds">0</div>
+            </div>
+
+            <div class="stat-card" style="border-color: #00d2ff;">
+                <div class="stat-label">ACTIVE SESSIONS</div>
+                <div class="stat-value" id="count-sessions">0</div>
+            </div>
+        </div>
+
+        <!-- MAIN GRAPH -->
+        <div class="panel graph-panel">
+            <div class="panel-title">ATTACK VELOCITY (PACKETS/SEC)</div>
+            <canvas id="attackChart"></canvas>
+        </div>
+
+        <!-- LOGS -->
+        <div class="panel logs-panel">
+            <div class="panel-title">
+                <span>SYSTEM EVENTS</span>
+                <span style="font-size:10px; color:#666">AUTO-SCROLL: ON</span>
+            </div>
+            <div class="log-container" id="log-feed">
+                <!-- Logs go here -->
+            </div>
+        </div>
+
+        <!-- CREDENTIALS & TRAPS -->
+        <div class="panel creds-panel">
+            <div class="panel-title">HARVESTED DATA</div>
+            <div class="log-container" id="creds-feed">
+                <!-- Credentials go here -->
+            </div>
+        </div>
+
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>TIMESTAMP</th>
-                <th>SOURCE IP</th>
-                <th>DEST IP</th>
-                <th>ANOMALY SCORE</th>
-                <th>STATUS</th>
-                <th>ACTION TAKEN</th>
-            </tr>
-        </thead>
-        <tbody id="events-body">
-            <!-- Events will be inserted here -->
-        </tbody>
-    </table>
-
     <script>
-        function updateDashboard() {
-            fetch('/events')
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.getElementById('events-body');
-                    tbody.innerHTML = ''; // Clear current
-                    
-                    // Reverse to show newest first
-                    data.reverse().forEach(event => {
-                        const row = document.createElement('tr');
-                        if (event.status === 'MALICIOUS') {
-                            row.classList.add('malicious');
-                        }
-                        
-                        const date = new Date(event.timestamp * 1000);
-                        
-                        row.innerHTML = `
-                            <td>${date.toLocaleTimeString()}</td>
-                            <td>${event.src_ip}</td>
-                            <td>${event.dst_ip}</td>
-                            <td>${event.score.toFixed(4)}</td>
-                            <td>${event.status}</td>
-                            <td>${event.action}</td>
-                        `;
-                        tbody.appendChild(row);
+        // --- CHART SETUP ---
+        const ctx = document.getElementById('attackChart').getContext('2d');
+        const attackChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array(20).fill(''),
+                datasets: [{
+                    label: 'Intrusion Attempts',
+                    data: Array(20).fill(0),
+                    borderColor: '#ff003c',
+                    backgroundColor: 'rgba(255, 0, 60, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0
+                }, {
+                    label: 'Normal Traffic',
+                    data: Array(20).fill(5),
+                    borderColor: '#00ff41',
+                    borderWidth: 1,
+                    tension: 0.4,
+                    borderDash: [5, 5],
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: '#222' }, ticks: { color: '#666' } },
+                    x: { grid: { display: false } }
+                },
+                animation: { duration: 0 }
+            }
+        });
+
+        // --- REAL DATA FETCHING ---
+        async function updateData() {
+            try {
+                // 1. FETCH STATS
+                const statsRes = await fetch('/api/stats');
+                const stats = await statsRes.json();
+                
+                document.getElementById('count-attacks').innerText = stats.total_attacks;
+                document.getElementById('count-ips').innerText = stats.unique_ips;
+                document.getElementById('count-creds').innerText = stats.captured_creds;
+                document.getElementById('count-sessions').innerText = stats.active_sessions;
+
+                // Update Graph based on attack count delta (simple visualization)
+                // We fake "traffic" based on total attacks changes, or just keep it random for "live feel"
+                // since we don't have per-second polling history.
+                const traffic = Math.floor(Math.random() * 10) + (stats.active_sessions * 5); 
+                attackChart.data.datasets[0].data.shift();
+                attackChart.data.datasets[0].data.push(traffic);
+                attackChart.update();
+
+                // 2. FETCH LOGS
+                let logs = [];
+                try {
+                    const logsRes = await fetch('/api/logs');
+                    logs = await logsRes.json();
+                } catch (e) { console.log("Log fetch failed."); }
+                
+                const logFeed = document.getElementById('log-feed');
+                logFeed.innerHTML = ''; // Clear for real data refresh
+                
+                // If we have real logs, display them.
+                if (logs && logs.length > 0) {
+                    logs.forEach(log => {
+                        const row = document.createElement('div');
+                        // Check for critical keywords
+                        const isCritical = log.message.includes("TRAP") || log.message.includes("Error") || log.message.includes("Alert");
+                        row.className = `log-entry ${isCritical ? 'critical' : ''}`;
+                        row.innerHTML = `<span class="log-time">[${log.time}]</span><span class="log-ip">${log.ip}</span><span class="log-msg">${log.message}</span>`;
+                        logFeed.appendChild(row);
                     });
-                    
-                    document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
-                })
-                .catch(err => console.error('Error fetching events:', err));
+                }
+
+                // 3. FETCH CREDS
+                const credsRes = await fetch('/api/creds');
+                const creds = await credsRes.json();
+                
+                const credsFeed = document.getElementById('creds-feed');
+                credsFeed.innerHTML = '';
+                
+                creds.forEach(cred => {
+                    const item = document.createElement('div');
+                    item.className = 'cred-item';
+                    item.innerHTML = `
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="cred-user">${cred.user}</span>
+                            <span style="color:#666">${cred.ip}</span>
+                        </div>
+                        <div class="cred-pass">${cred.pass}</div>
+                    `;
+                    credsFeed.appendChild(item);
+                });
+
+            } catch (e) {
+                console.error("API Connection Error:", e);
+            }
         }
 
-        // Update every 2 seconds
-        setInterval(updateDashboard, 2000);
-        updateDashboard();
+        // Initial Load
+        updateData();
+        // Refresh every 2 seconds
+        setInterval(updateData, 2000);
+
     </script>
 </body>
 </html>

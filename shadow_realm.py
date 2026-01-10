@@ -13,12 +13,11 @@ import json
 import urllib.request
 
 # --- SILENCE PARAMIKO NOISE ---
-# Nmap scans cause Paramiko threads to crash noisily. We mute it.
 logging.getLogger("paramiko").setLevel(logging.CRITICAL)
 
 # --- CONFIGURATION ---
 BIND_IP = "0.0.0.0"
-BIND_PORT = 6666 # The firewall redirects here
+BIND_PORT = 6666
 HONEY_DIR = "honey_files"
 
 # Load or Generate Persistent Host Key
@@ -31,19 +30,14 @@ else:
     HOST_KEY.write_private_key_file(KEY_FILE)
 
 CREEPY_MESSAGES = [
-    "I see you...",
-    "There is no escape.",
-    "Why are you here?",
-    "You are not alone.",
-    "Look behind you.",
-    "The void stares back.",
-    "Delete system32? (y/n)",
-    "Accessing camera...",
-    "Uploading your history..."
+        "nee oru theeya sakthi ", 
+    "I see you...", "There is no escape.", "Why are you here?", "You are not alone.",
+    "Look behind you.", "The void stares back.", "nee oru theeya sakthi !",
+    "Accessing camera...", "Uploading your history..."
 ]
 
 ASCII_SKULL = r"""
-      NO!
+      MATTIKITYAE PANGU :)
     .-"      "-.
    /            \
   |              |
@@ -58,7 +52,6 @@ ASCII_SKULL = r"""
    YOU ARE TRAPPED
 """
 
-# ANSI Colors
 RED = "\033[91m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -66,42 +59,54 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 CLEAR = "\033[2J\033[H"
 
+class BufferedSocket:
+    """Wraps a socket to allow 'pushing back' read data."""
+    def __init__(self, sock, buffer=b""):
+        self.sock = sock
+        self.buffer = buffer
+
+    def recv(self, n):
+        if self.buffer:
+            if len(self.buffer) >= n:
+                ret = self.buffer[:n]
+                self.buffer = self.buffer[n:]
+                return ret
+            else:
+                ret = self.buffer
+                self.buffer = b""
+                return ret + self.sock.recv(n - len(ret))
+        return self.sock.recv(n)
+
+    def send(self, data): return self.sock.send(data)
+    def close(self): return self.sock.close()
+    def settimeout(self, t): return self.sock.settimeout(t)
+    def getpeername(self): return self.sock.getpeername()
+    def __getattr__(self, name): return getattr(self.sock, name)
+
 def get_mac(ip):
-    """Try to resolve IP to MAC address using system ARP table (/proc/net/arp)."""
-    if ip == "127.0.0.1" or ip == "localhost":
-        return "00:00:00:00:00:00 (LOCALHOST)"
+    if ip in ["127.0.0.1", "localhost", "0.0.0.0"]: return "00:00:00:00:00:00 (LOCALHOST)"
     try:
         with open('/proc/net/arp', 'r') as f:
             next(f)
             for line in f:
                 parts = line.split()
                 if len(parts) >= 4 and parts[0] == ip:
-                    mac = parts[3]
-                    if mac != "00:00:00:00:00:00": return mac
-    except: pass
-    try:
-        output = subprocess.check_output(["arp", "-n", ip]).decode()
-        mac = re.search(r"(([a-f\d]{1,2}\:){5}[a-f\d]{1,2})", output)
-        if mac: return mac.group(0)
+                    if parts[3] != "00:00:00:00:00:00": return parts[3]
     except: pass
     return "UNKNOWN (VPN/PROXY?)"
 
 def get_geolocation(ip):
-    """Query ip-api.com for geolocation data."""
-    if ip in ["127.0.0.1", "localhost", "0.0.0.0"]:
-        return "Localhost (Internal)"
+    if ip in ["127.0.0.1", "localhost", "0.0.0.0"]: return "Localhost (Internal)"
     try:
         url = f"http://ip-api.com/json/{ip}"
         with urllib.request.urlopen(url, timeout=5) as response:
             data = json.loads(response.read().decode())
             if data['status'] == 'success':
                 return f"{data.get('city', 'Unknown City')}, {data.get('country', 'Unknown Country')} ({data.get('isp', 'Unknown ISP')})"
-    except Exception as e:
-        return f"Geo-lookup Failed"
+    except: pass
     return "Unknown Location"
 
 def slow_type(chan, message, delay=0.05):
-    """Simulates slow typing into the SSH channel."""
     try:
         for char in message:
             chan.send(char)
@@ -119,29 +124,21 @@ class TrapServer(paramiko.ServerInterface):
         return paramiko.OPEN_SUCCEEDED if kind == 'session' else paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
 
     def check_auth_password(self, username, password):
-        # LOG CREDENTIALS
         log_entry = f"{time.ctime()},{self.victim_ip},{username},{password}\n"
         try:
-            with open("captured_creds.csv", "a") as f:
-                f.write(log_entry)
-            print(f"{GREEN}[+] CAPTURED CREDENTIALS: {username}:{password} from {self.victim_ip}{RESET}")
-        except:
-            print(f"[-] Failed to log credentials for {self.victim_ip}")
-            
+            with open("captured_creds.csv", "a") as f: f.write(log_entry)
+            print(f"{GREEN}[+] CAPTURED CREDS: {username}:{password} from {self.victim_ip}{RESET}")
+        except: pass
         return paramiko.AUTH_SUCCESSFUL
 
-    def get_allowed_auths(self, username):
-        return 'password'
-
+    def get_allowed_auths(self, username): return 'password'
     def check_channel_shell_request(self, channel):
         self.event.set()
         return True
-    
     def check_channel_exec_request(self, channel, command):
         self.command = command
         self.event.set()
         return True
-    
     def check_channel_pty_request(self, channel, term, width, height, pixelwidth, pixelheight, modes):
         return True
 
@@ -178,7 +175,6 @@ ACTION:      AUTHORITIES NOTIFIED
             base64_png = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABQCAYAAAD9wA3jAAAAAXNSR0IArs4c6QAAAXxJREFUeF7tmD1rFEAYh/9Fp+I119hQjE1Gk0qL5NlXbA1N1g3yH+Jp/4S/pC/p392NqTFNJk1gWFiwR2D+42aZmdlXj427mZ2zD+YcM/Pv+x4Z6fV6fT+J52Wz2ex+MpvNbJ4H8/l8P5fL5XyJx+Px/eJgMBj8x+Vy+f2K4XA4/Ewmk/n23W43qXg8Hn5isVj8lYPB4GjX63X/bTabL3t4ePgdDAaDofX19X7s5/N5MpvN9dFqtYjFYjHj8Xj4eDyeTGeTyexsNhtXj4+Px+XxeF5tNpt3mEwmXy0WiwM+Pj7+BoPB4P5oNBozTqvV6v5YLPYxHo/Hm9Pp9NdrNpvP83g8Dufz+X6Ty+Vyb+LxeLw/GAyGu1qt3u3r6/t6PJ6fRywW/2c8Hn8pGo329Pl8Pn5arVZTjUbj/eRyOV+Xy+W+uFwu3/R6vT4+Go1Gb2azWf9xOBx+MpvN8Xg8DofWajWX/d3d3b/hcDj8zGaz/eHh4fGzWq1+zGaz/eFwOPycTqe/7ezsvO/t7f3/r9VqfX+/3/8vGAwG/9/f3//f3d3d/zcbjeb/vV4vf3d3d/8/GAwG/08mkyP/fX9//w0GA8z/R/rX0+n0uJ9MJoPZ/1a/f//+C95f/gBfB+sXg8EBr8/n8zS/n88z/7+///8XvL/8AfxfbV8MA7z/B/L/m+3d6fS4nz+/X2f+//8A/j+b393d3b/hcDj8/5H+l+3/J/P/H7z/A/H/t/3/3d3d/zcbjcP/N9v/v+fze//f//+B/39/f/8/m+3//4EAAADoHn+rM81J8V+ZAAAAAElFTkSuQmCC"
             content_bytes = base64.b64decode(base64_png)
         elif requested_filename.lower().endswith('.iso'):
-            # THE CURSED ISO TRAP
             fake_size = 666666666
             header = f"C0644 {fake_size} {requested_filename}\n"
             chan.send(header.encode())
@@ -186,12 +182,7 @@ ACTION:      AUTHORITIES NOTIFIED
             try: chan.recv(1)
             except: pass
             chan.settimeout(None)
-            trap_header = f"""
-{RED}{ASCII_SKULL}{RESET}
-{RED}VICTIM IP: {victim_ip}{RESET}
-{RED}CONTENTS:  COUNTER-MEASURE PAYLOAD{RESET}
-{RED}STATUS:    DEPLOYING MALWARE TO TARGET...{RESET}
-"""
+            trap_header = f"{RED}{ASCII_SKULL}{RESET}\n{RED}VICTIM IP: {victim_ip}{RESET}\n{RED}CONTENTS:  COUNTER-MEASURE PAYLOAD{RESET}\n{RED}STATUS:    DEPLOYING MALWARE TO TARGET...{RESET}\n"
             chan.send(trap_header.encode())
             print(f"[*] Sending CURSED ISO to {victim_ip}...")
             end_time = time.time() + 10 
@@ -204,7 +195,6 @@ ACTION:      AUTHORITIES NOTIFIED
             final_msg = f"\n\n{GREEN}[+] ROOTKIT INSTALLED ON {victim_ip}. GOODBYE.{RESET}\n"
             try: chan.send(final_msg.encode())
             except: pass
-            print(f"[*] Cursed ISO trap finished for {victim_ip}")
             chan.close()
             return 
         elif os.path.exists(os.path.join(HONEY_DIR, requested_filename)):
@@ -244,36 +234,50 @@ ACTION:      AUTHORITIES NOTIFIED
 
 def handle_ssh_connection(client_sock, addr):
     victim_ip = addr[0]
+    
+    # BUFFEREDSOCKET to allow peeking at the first line
+    # If it's an IP (from proxy), we use it. 
+    # If it's SSH banner (direct connection), we put it back.
+    buf_sock = BufferedSocket(client_sock)
+    
     try:
-        ip_buffer = b""
+        # Peek at the first few bytes (enough for an IP or SSH banner)
+        first_line = b""
         while True:
-            char = client_sock.recv(1)
+            char = buf_sock.recv(1)
             if not char: break
-            if char == b'\n':
-                victim_ip = ip_buffer.decode('utf-8').strip()
-                break
-            ip_buffer += char
-    except: pass
+            if char == b'\n': break
+            first_line += char
+            if len(first_line) > 50: break # Safety break
+        
+        # Check if it looks like an IP address
+        decoded_line = first_line.decode('utf-8').strip()
+        if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', decoded_line):
+            victim_ip = decoded_line
+            # The line was an IP, so we consumed it correctly. 
+            # buf_sock buffer is empty (except maybe \n which we skipped or consumed)
+        else:
+            # It was probably "SSH-2.0-..."
+            # We must put it back for Paramiko!
+            # We also need to put back the newline if we consumed it
+            buf_sock = BufferedSocket(client_sock, first_line + b'\n')
+            
+    except Exception as e:
+        print(f"[-] Error parsing header: {e}")
 
     victim_mac = get_mac(victim_ip)
-    
-    # 1. INTELLIGENCE: Geo-Location
     location = get_geolocation(victim_ip)
     print(f"[*] SSH TRAP: Connection from {victim_ip} [{location}]")
 
     try:
-        t = paramiko.Transport(client_sock)
+        t = paramiko.Transport(buf_sock) # Use the buffered socket!
         t.local_version = "SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5" 
         t.add_server_key(HOST_KEY)
         
-        # 2. INTELLIGENCE: Pass IP to Server to log creds
         server = TrapServer(victim_ip)
-        
         t.start_server(server=server)
         
-        # 3. INTELLIGENCE: Fingerprint Client
-        client_version = t.remote_version
-        print(f"[*] Client Fingerprint ({victim_ip}): {client_version}")
+        print(f"[*] Client Fingerprint: {t.remote_version}")
         
         chan = t.accept(20)
         if chan is None: return
@@ -313,42 +317,31 @@ def handle_ssh_connection(client_sock, addr):
             if not cmd: continue
             time.sleep(random.uniform(0.1, 0.3))
 
-            # --- THEATRICS ---
-            
-            # 1. THE VIM TRAP
             if cmd.startswith("vi") or cmd.startswith("nano"):
                 chan.send(CLEAR)
                 rows = 24
-                for i in range(rows - 2):
-                    chan.send("~\r\n")
+                for i in range(rows - 2): chan.send("~\r\n")
                 chan.send(f"~                                                                               \r\n")
                 chan.send(f"\"{cmd.split()[-1] if len(cmd.split()) > 1 else 'newfile'}\" [New File]                                                   0,0-1         All\r\n")
-                # Infinite loop inside editor
                 while True:
                     try:
                         k = chan.recv(1)
-                        # Respond to common exit attempts
-                        if k == b'\x03': # Ctrl+C
-                            chan.send(f"\r\n{RED}Type :quit<Enter> to exit Vim.{RESET}\r\n")
+                        if k == b'\x03': chan.send(f"\r\n{RED}Type :quit<Enter> to exit Vim.{RESET}\r\n")
                         elif k == b':':
                             chan.send(":")
-                            # Capture command line
                             cmd_line = ""
                             while True:
                                 ck = chan.recv(1)
-                                if ck == b'\r' or ck == b'\n':
+                                if ck == b'\r' or ck == b'\n': 
                                     chan.send("\r\n")
                                     break
                                 chan.send(ck)
                                 cmd_line += ck.decode('utf-8', errors='ignore')
-                            if ":q" in cmd_line:
-                                slow_type(chan, f"{RED}E37: No write since last change (add ! to override){RESET}")
-                            elif ":!" in cmd_line:
-                                slow_type(chan, f"{RED}E166: Can't open linked file for writing. Soul locked.{RESET}")
+                            if ":q" in cmd_line: slow_type(chan, f"{RED}E37: No write since last change (add ! to override){RESET}")
+                            elif ":!" in cmd_line: slow_type(chan, f"{RED}E166: Can't open linked file for writing. Soul locked.{RESET}")
                     except: break
                 continue
 
-            # 2. FAKE NETSTAT
             if cmd.startswith("netstat") or cmd.startswith("ss") or cmd.startswith("lsof"):
                 header = "Proto Recv-Q Send-Q Local Address           Foreign Address         State\r\n"
                 chan.send(header)
@@ -358,20 +351,15 @@ def handle_ssh_connection(client_sock, addr):
                 chan.send(f"{RED}tcp        0      0 0.0.0.0:80              203.0.113.55:443        ESTABLISHED (NSA_Prism_Uplink){RESET}\r\n")
                 continue
 
-            # 3. SYSTEM MELTDOWN (rm -rf /)
             if "rm -rf" in cmd:
                 slow_type(chan, f"{RED}WARNING: CRITICAL SYSTEM FILES TARGETED.{RESET}", 0.1)
                 time.sleep(1)
                 slow_type(chan, "Executing command...", 0.2)
                 time.sleep(1)
-                
-                # Scroll fake deletion text
-                sys_files = ["/bin/bash", "/etc/passwd", "/var/log/syslog", "/home/user/family_photos.jpg", "/boot/vmlinuz", "/dev/mem"]
                 for _ in range(50):
                     f = f"/sys/kernel/{random.randint(1000,9999)}/{random.choice(['core', 'bus', 'mem'])}"
                     chan.send(f"Removing {f}... {RED}DELETED{RESET}\r\n")
                     time.sleep(0.02)
-                
                 slow_type(chan, f"{RED}CRITICAL ERROR: KERNEL PANIC.{RESET}", 0.05)
                 slow_type(chan, f"{RED}INIT: Attempting to kill init...{RESET}", 0.05)
                 time.sleep(1)
@@ -380,19 +368,17 @@ def handle_ssh_connection(client_sock, addr):
                 chan.close()
                 return
 
-            # 4. FAKE SUDO
             if cmd.startswith("sudo") or cmd == "su":
                 chan.send(f"[sudo] password for root: ")
                 while True:
                     c = chan.recv(1)
-                    if c == b'\r' or c == b'\n':
+                    if c == b'\r' or c == b'\n': 
                         chan.send("\r\n")
                         break
                 time.sleep(1.5) 
                 slow_type(chan, f"{GREEN}Authentication successful.{RESET}")
                 continue
 
-            # 5. FAKE WGET/CURL
             if cmd.startswith("wget") or cmd.startswith("curl") or cmd.startswith("git clone"):
                 filename = "payload"
                 if " " in cmd: filename = cmd.split(" ")[-1].split("/")[-1]
@@ -408,7 +394,6 @@ def handle_ssh_connection(client_sock, addr):
                 chan.send(f"\r\n\r\n{GREEN}('{filename}' saved){RESET}\r\n")
                 continue
 
-            # 6. LS
             if cmd == "ls" or cmd == "dir" or cmd == "ll":
                 real_files = []
                 if os.path.exists(HONEY_DIR): real_files = os.listdir(HONEY_DIR)
@@ -416,16 +401,12 @@ def handle_ssh_connection(client_sock, addr):
                 all_files = list(set(real_files + fake_files))
                 colored_files = []
                 for f in all_files:
-                    if f.endswith(".exe") or f.endswith(".sh") or f.endswith(".iso"):
-                        colored_files.append(f"{RED}{f}{RESET}")
-                    elif f.endswith((".db", ".txt", ".csv")):
-                        colored_files.append(f"{BLUE}{f}{RESET}")
-                    else:
-                        colored_files.append(f"{GREEN}{f}{RESET}")
+                    if f.endswith(".exe") or f.endswith(".sh") or f.endswith(".iso"): colored_files.append(f"{RED}{f}{RESET}")
+                    elif f.endswith((".db", ".txt", ".csv")): colored_files.append(f"{BLUE}{f}{RESET}")
+                    else: colored_files.append(f"{GREEN}{f}{RESET}")
                 slow_type(chan, "  ".join(colored_files))
                 continue
 
-            # 7. TRAPS (cat)
             if "leaked_emails.csv" in cmd:
                  slow_type(chan, f"[*] OPENING FILE...", 0.1)
                  time.sleep(0.5)
@@ -433,7 +414,7 @@ def handle_ssh_connection(client_sock, addr):
                  time.sleep(0.5)
                  slow_type(chan, f"{YELLOW}[*] UPLOADING FORENSIC DATA TO HQ...{RESET}", 0.05)
                  for i in range(21):
-                     chan.send(f"\r[{('='*i):<20}] {i*5}%")
+                     chan.send(f"\r[+{"="*i:<20}] {i*5}%")
                      time.sleep(0.1)
                  chan.send("\r\n")
                  slow_type(chan, f"{RED}[*] UPLOAD COMPLETE. AUTHORITIES NOTIFIED.{RESET}", 0.05)
@@ -449,7 +430,7 @@ def handle_ssh_connection(client_sock, addr):
                 chan.send(f"Enter Decryption Key: ")
                 while True:
                     c = chan.recv(1)
-                    if c == b'\r' or c == b'\n':
+                    if c == b'\r' or c == b'\n': 
                         chan.send("\r\n")
                         break
                 slow_type(chan, f"{YELLOW}[*] Verifying Key...{RESET}")
@@ -475,7 +456,6 @@ def handle_ssh_connection(client_sock, addr):
                 chan.send(f"{RED}{ASCII_SKULL}{RESET}\r\n")
                 continue
 
-            # 8. EXIT REFUSAL
             if cmd == "exit" or cmd == "quit":
                 exit_attempts += 1
                 if exit_attempts == 1: slow_type(chan, f"{RED}did u think u can escape me?{RESET}")
@@ -495,8 +475,6 @@ def handle_ssh_connection(client_sock, addr):
                 slow_type(chan, f"{RED}{random.choice(CREEPY_MESSAGES)}{RESET}")
                 continue
 
-            # Standard "command not found" (fake)
-            # Silent fail for harmless ops
             if cmd.startswith(("chmod", "chown", "mkdir", "touch", "cp", "mv")):
                 continue
             
